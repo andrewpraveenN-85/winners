@@ -77,11 +77,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <?php if ($model->isNewRecord) { ?>
-                        <div class="mb-3">
-                            <?= $form->field($model, 'email')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                        </div>
-                    <?php } ?>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'email')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
+                    </div>
                     <div class="mb-3">
                         <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>

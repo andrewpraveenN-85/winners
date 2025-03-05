@@ -3,7 +3,7 @@
 namespace backend\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "events".
  *
@@ -21,35 +21,35 @@ use Yii;
  * @property Activity[] $activities
  * @property Profiles[] $profiles
  */
-class Events extends \yii\db\ActiveRecord
-{
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
+class Events extends \yii\db\ActiveRecord {
+
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+    
+    public static function tableName() {
         return 'events';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
+    public function behaviors() {
         return [
-            [['name', 'description', 'address', 'date_time', 'registration_deadline', 'maximum_participations', 'status', 'created_at', 'updated_at'], 'required'],
-            [['description'], 'string'],
-            [['date_time', 'registration_deadline'], 'safe'],
-            [['maximum_participations', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'address'], 'string', 'max' => 255],
+            TimestampBehavior::class,
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
+    public function rules() {
+        return [
+            [['name', 'address', 'date_time', 'registration_deadline', 'status'], 'required'],
+            [['description'], 'string'],
+            [['description', 'registration_deadline', 'maximum_participations'], 'safe'],
+            [['maximum_participations', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'address'], 'string', 'max' => 255],
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+        ];
+    }
+
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'name' => 'Name',
@@ -59,28 +59,16 @@ class Events extends \yii\db\ActiveRecord
             'registration_deadline' => 'Registration Deadline',
             'maximum_participations' => 'Maximum Participations',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Created',
+            'updated_at' => 'Updated',
         ];
     }
 
-    /**
-     * Gets query for [[Activities]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getActivities()
-    {
+    public function getActivities() {
         return $this->hasMany(Activity::class, ['event_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Profiles]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfiles()
-    {
+    public function getProfiles() {
         return $this->hasMany(Profiles::class, ['id' => 'profile_id'])->viaTable('activity', ['event_id' => 'id']);
     }
 }

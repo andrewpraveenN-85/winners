@@ -9,13 +9,12 @@ use backend\models\Events;
 /**
  * EventsSearch represents the model behind the search form of `backend\models\Events`.
  */
-class EventsSearch extends Events
-{
+class EventsSearch extends Events {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'maximum_participations', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'address', 'date_time', 'registration_deadline'], 'safe'],
@@ -25,8 +24,7 @@ class EventsSearch extends Events
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +36,7 @@ class EventsSearch extends Events
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Events::find();
 
         // add conditions that should always apply here
@@ -68,8 +65,8 @@ class EventsSearch extends Events
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'address', $this->address]);
+                ->andFilterWhere(['like', 'description', $this->description])
+                ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

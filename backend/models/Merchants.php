@@ -52,7 +52,7 @@ class Merchants extends \yii\db\ActiveRecord {
         return [
             [['first_name', 'bussiness_name', 'last_name', 'brn', 'email', 'status'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['user_id', 'dor', 'type', 'address', 'img', 'email', 'status', 'img'], 'safe'],
+            [['user_id', 'dor', 'type', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
             [['first_name', 'bussiness_name', 'last_name', 'type', 'address', 'img'], 'string', 'max' => 255],
             [['brn', 'mobile'], 'string', 'max' => 15],

@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use backend\models\User;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "profiles".
@@ -30,124 +32,106 @@ use Yii;
  * @property Users $user
  * @property Winners[] $winners
  */
-class Profiles extends \yii\db\ActiveRecord
-{
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
+class Profiles extends \yii\db\ActiveRecord {
+
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+
+    public $image;
+    public $email;
+    public $status;
+
+    public static function tableName() {
         return 'profiles';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
+    public function behaviors() {
         return [
-            [['user_id', 'first_name', 'last_name', 'sin', 'created_at', 'updated_at'], 'required'],
+            TimestampBehavior::class,
+        ];
+    }
+
+    public function rules() {
+        return [
+            [['first_name', 'last_name', 'sin', 'email', 'status'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['dob'], 'safe'],
+            [['user_id', 'dob', 'gender', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
             [['first_name', 'middle_name', 'last_name', 'address', 'img'], 'string', 'max' => 255],
             [['sin', 'mobile'], 'string', 'max' => 15],
             [['gender'], 'string', 'max' => 5],
             [['sin'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['email'], 'email'],
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
             'first_name' => 'First Name',
             'middle_name' => 'Middle Name',
             'last_name' => 'Last Name',
-            'sin' => 'Sin',
+            'sin' => 'Security Idenfication No',
             'mobile' => 'Mobile',
-            'dob' => 'Dob',
+            'dob' => 'Date of Birth',
             'gender' => 'Gender',
             'address' => 'Address',
             'notes' => 'Notes',
-            'img' => 'Img',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'img' => 'Picture',
+            'created_at' => 'Created',
+            'updated_at' => 'Updated',
         ];
     }
 
-    /**
-     * Gets query for [[Activities]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getActivities()
-    {
+    public function getActivities() {
         return $this->hasMany(Activity::class, ['profile_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Events]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEvents()
-    {
+    public function getEvents() {
         return $this->hasMany(Events::class, ['id' => 'event_id'])->viaTable('activity', ['profile_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Gifts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGifts()
-    {
+    public function getGifts() {
         return $this->hasMany(Gifts::class, ['id' => 'gift_id'])->viaTable('winners', ['profile_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Memberships]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMemberships()
-    {
+    public function getMemberships() {
         return $this->hasMany(Memberships::class, ['profile_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Packages]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPackages()
-    {
+    public function getPackages() {
         return $this->hasMany(Packages::class, ['id' => 'package_id'])->viaTable('memberships', ['profile_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
+    public function getUser() {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    /**
-     * Gets query for [[Winners]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getWinners()
-    {
+    public function getWinners() {
         return $this->hasMany(Winners::class, ['profile_id' => 'id']);
+    }
+    
+    public function createUser() {
+        $user = new User();
+        $user->email = $this->email;
+        $user->status = $this->status;
+        if ($user->save()) {
+            return $user->id;
+        }
+        return false;
+    }
+
+    public function getImgURL() {
+        if ($this->img != null) {
+            return Yii::$app->params['back_host'] . 'profile/' . $this->img;
+        } else {
+            return Yii::$app->params['back_host'] . 'default.jpg';
+        }
     }
 }

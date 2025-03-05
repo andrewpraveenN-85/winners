@@ -1,15 +1,15 @@
 <?php
 
-namespace backend\controllers\business;
+namespace backend\controllers;
 
 use Yii;
 use backend\models\User;
-use backend\models\Merchants;
-use backend\models\MerchantsSearch;
+use backend\models\Profiles;
+use backend\models\ProfilesSearch;
 use yii\web\Controller;
 use yii2mod\rbac\filters\AccessControl;
 
-class MerchantsController extends Controller {
+class MembersController extends Controller {
 
     public function behaviors() {
         return [
@@ -25,10 +25,10 @@ class MerchantsController extends Controller {
     }
 
     public function actionIndex($id = null) {
-        $model = $id ? $this->findModel($id) : new Merchants();
+        $model = $id ? $this->findModel($id) : new Profiles();
         $model->status = $id ? $model->user->status : NULL;
         $model->email = $id ? $model->user->email : NULL;
-        $searchModel = new MerchantsSearch();
+        $searchModel = new ProfilesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -39,13 +39,13 @@ class MerchantsController extends Controller {
     }
 
     public function actionCreate() {
-        $model = new Merchants();
+        $model = new Profiles();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $userId = $this->createUserAndSave($model);
             if ($userId) {
                 $this->assignRoleToUser($userId);
-                Yii::$app->session->setFlash('success', 'Merchant has been created successfully.');
+                Yii::$app->session->setFlash('success', 'Member has been created successfully.');
                 return $this->redirect(['index']);
             }
         }
@@ -64,14 +64,14 @@ class MerchantsController extends Controller {
 
     private function assignRoleToUser($userId) {
         $auth = Yii::$app->authManager;
-        $item = $auth->getRole('Merchant');
+        $item = $auth->getRole('Profile');
         $auth->assign($item, $userId);
     }
 
     public function actionUpdate($id) {
         $model = $this->findModel($id);
         if ($this->request->isPost && $model->load($this->request->post()) && $this->updateUserAndSave($model) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Merchant has been updated successfully.');
+            Yii::$app->session->setFlash('success', 'Member has been updated successfully.');
             return $this->redirect(['index']);
         }
     }
@@ -84,10 +84,10 @@ class MerchantsController extends Controller {
     }
 
     protected function findModel($id) {
-        if (($model = Merchants::findOne(['id' => $id])) !== null) {
+        if (($model = Profiles::findOne(['id' => $id])) !== null) {
             return $model;
         } else {
-            return new Merchants();
+            return new Profiles();
         }
     }
 

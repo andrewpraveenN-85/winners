@@ -9,8 +9,7 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var backend\models\UserSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
-$this->title = 'Merchants';
-$this->params['breadcrumbs'][] = 'Business';
+$this->title = 'Members';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -32,8 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::img($data->imgURL, ['class' => 'img-fluid', 'style' => 'height: 50px;']); // options of size there
                 },
             ],
-            'bussiness_name',
-            'brn',
+            'first_name',
+            'last_name',
+            'sin',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
@@ -83,24 +83,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php $form = ActiveForm::begin(['action' => ['update', 'id' => $model->id], 'options' => ['enctype' => 'multipart/form-data']]); ?>
                 <?php } ?>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><?= $model->isNewRecord ? 'Create Merchant' : 'Update Merchant - ' . Html::encode($model->bussiness_name) ?></h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><?= $model->isNewRecord ? 'Create Merchant' : 'Update Merchant - ' . Html::encode($model->first_name . ' ' . $model->last_name) ?></h5>
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-6">
-                            <?= $form->field($model, 'bussiness_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
+                            <?= $form->field($model, 'first_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                         </div>
                         <div class="col-6">
-                            <?= $form->field($model, 'brn')->textInput(['maxlength' => 20, 'class' => 'form-control mb-2']) ?>
+                            <?= $form->field($model, 'middle_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <?= $form->field($model, 'first_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
+                            <?= $form->field($model, 'last_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                         </div>
                         <div class="col-6">
-                            <?= $form->field($model, 'last_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
+                            <?= $form->field($model, 'sin')->textInput(['maxlength' => 20, 'class' => 'form-control mb-2']) ?>
                         </div>
                     </div>
                     <div class="row mb-3">
