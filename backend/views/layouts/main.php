@@ -97,68 +97,61 @@ AppAsset::register($this);
             <!-- Sidebar -->
             <nav id="sidebar" class="bg-light border-end collapse show">
                 <div class="p-3">
-                    <h5>Winner Drawer</h5>
+                    <h5>Reward MIS</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="/"><i class="fa fa-dashboard fa-fw fa-sm" role="button" ></i>Dashboard</a>
+                            <a class="nav-link" href="/">
+                                <i class="fa fa-dashboard fa-fw fa-sm" role="button" ></i>Dashboard
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#submenu4" role="button" aria-expanded="false" aria-controls="submenu4">
-                                <i class="fa fa-deviantart fa-fw fa-sm"></i>Rewards & Draws<i class="fa fa-angle-down dropdown-arrow"></i>
+                            <a class="nav-link" aria-current="page" href="/members">
+                                <i class="fa fa-user-secret fa-fw fa-sm"></i>Members
                             </a>
-                            <div class="collapse" id="submenu4">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/draws">
+                                <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/events">
+                                <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#submenu3" role="button" aria-expanded="false" aria-controls="submenu4">
+                                <i class="fa fa-building fa-fw fa-sm"></i>Business<i class="fa fa-angle-down dropdown-arrow"></i>
+                            </a>
+                            <div class="collapse" id="submenu3">
                                 <ul class="nav flex-column ms-3">
                                     <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/service-type">
-                                            <i class="fa fa-list fa-fw fa-sm"></i>Rewards
+                                        <a class="nav-link" aria-current="page" href="/business/merchants">
+                                            <i class="fa fa-building fa-fw fa-sm"></i>Merchants
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/service-request">
-                                            <i class="fa fa-briefcase fa-fw fa-sm"></i>Draws
+                                        <a class="nav-link" href="business/packages">
+                                            <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Packages
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#submenu4" role="button" aria-expanded="false" aria-controls="submenu4">
-                                <i class="fa fa-users fa-fw fa-sm"></i>Users<i class="fa fa-angle-down dropdown-arrow"></i>
-                            </a>
-                            <div class="collapse" id="submenu4">
-                                <ul class="nav flex-column ms-3">
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/departments">
-                                            <i class="fa fa-sitemap fa-fw fa-sm"></i>Merchants
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/staff">
-                                            <i class="fa fa-user-secret fa-fw fa-sm"></i>Players
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/guest">
-                                            <i class="fa fa-user fa-fw fa-sm"></i>Admins
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#submenu6" role="button" aria-expanded="false" aria-controls="submenu6">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#submenu4" role="button" aria-expanded="false" aria-controls="submenu6">
                                 <i class="fa fa-cogs fa-fw fa-sm"></i>Settings<i class="fa fa-angle-down dropdown-arrow"></i>
                             </a>
-                            <div class="collapse" id="submenu6">
+                            <div class="collapse" id="submenu4">
                                 <ul class="nav flex-column ms-3">
                                     <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/route">
-                                            <i class="fa fa-code-fork fa-fw fa-sm"></i>Route
+                                        <a class="nav-link" href="/settings/profile">
+                                            <i class="fa fa-user fa-fw fa-sm"></i>Profile
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" aria-current="page" href="/role">
-                                            <i class="fa fa-gavel fa-fw fa-sm"></i>Roles
+                                        <a class="nav-link" aria-current="page" href="/settings/admins">
+                                            <i class="fa fa-user-secret fa-fw fa-sm"></i>Admins
                                         </a>
                                     </li>
                                 </ul>

@@ -33,14 +33,12 @@ class User extends ActiveRecord implements IdentityInterface {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+    
+    public $password;
+    public $newpassword;
 
-    public $roleInput;
-
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName() {
-        return '{{%user}}';
+        return '{{%users}}';
     }
 
     /**
@@ -57,17 +55,22 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function rules() {
         return [
-            [['email', 'status', 'roleInput'], 'safe'],
+            [['email', 'status'], 'required'],
+            [['email', 'status', 'password', 'newpassword'], 'safe'],
+            [['email'], 'unique'],
+            [['email'], 'email'],
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
 
     public function attributeLabels() {
         return [
             'email' => 'Email',
+            'newpassword' => 'New Password',
+            'password' => 'Password',
             'status' => 'Status',
             'statusText' => 'Status',
-            'role' => 'Role',
-            'roleInput' => 'Role',
             'created_at' => 'Created',
             'updated_at' => 'Updated',
         ];
@@ -260,5 +263,16 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function getProfiles() {
         return $this->hasMany(Profile::class, ['user_id' => 'id']);
+    }
+
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->setPassword($this->id . $this->email);
+                $this->generateAuthKey();
+            }
+            return true;
+        }
+        return false;
     }
 }

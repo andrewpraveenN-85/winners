@@ -13,9 +13,9 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-//        'rbac' => [
-//            'class' => 'yii2mod\rbac\Module',
-//        ],
+        'rbac' => [
+            'class' => 'yii2mod\rbac\Module',
+        ],
     ],
     'components' => [
         'request' => [
