@@ -131,7 +131,7 @@ AppAsset::register($this);
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="business/packages">
+                                        <a class="nav-link" href="/business/packages">
                                             <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Packages
                                         </a>
                                     </li>
