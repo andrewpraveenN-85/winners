@@ -26,12 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'img',
+            [
+                'format' => ['html'],
+                'value' => function ($data) {
+                    return Html::img($data->imgURL, ['class'=>'img-fluid', 'style'=>'height: 50px;']); // options of size there
+                },
+            ],
             'bussiness_name',
-            'type',
-            'first_name',
-            'last_name',
-//            'email:email',
 //            [
 //                'attribute' => 'status',
 //                'value' => 'statusText',
@@ -53,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'custom' => function ($url, $data, $key) {
                         return Html::a(
                                 'Update',
-                                ['index', 'id' => $data->id],
+                                ['index', 'id' => $data->user_id],
                                 [
                                     'class' => 'btn btn-primary',
                                     'data' => [
@@ -78,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php $form = ActiveForm::begin(['action' => ['update', 'id' => $model->id], 'options' => ['enctype' => 'multipart/form-data']]); ?>
                 <?php } ?>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><?= $model->isNewRecord ? 'Create Merchant' : 'Update Merchant - ' . Html::encode($model->bussiness_name) ?></h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><?= $model->isNewRecord ? 'Create Merchant' : 'Update Merchant - ' . Html::encode($model->email) ?></h5>
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

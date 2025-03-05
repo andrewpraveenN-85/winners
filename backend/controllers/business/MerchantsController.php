@@ -25,7 +25,7 @@ class MerchantsController extends Controller {
     }
 
     public function actionIndex($id = null) {
-        $model = $id ? $this->findModel($id) : new Merchants();
+        $model = $id ? $this->findUserModel($id) : new Merchants();
         $searchModel = new MerchantsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -38,19 +38,36 @@ class MerchantsController extends Controller {
 
     public function actionCreate() {
         $model = new Merchants();
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            $auth = Yii::$app->authManager;
-            $item = $auth->getRole('Admin');
-            $auth->assign($item, $model->id);
-            Yii::$app->session->setFlash('success', 'Item has been saved.');
-            return $this->redirect(['index']);
+        
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $userId = $this->createUserAndSave($model);
+            if ($userId) {
+                $this->assignRoleToUser($userId);
+                Yii::$app->session->setFlash('success', 'Merchant has been created successfully.');
+                return $this->redirect(['index']);
+            }
         }
     }
 
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
+    private function createUserAndSave($model) {
+        $userId = $model->createUser();
+        if ($userId) {
+            $model->user_id = $userId;
+            if ($model->save()) {
+                return $userId;
+            }
+        }
+        return false;
+    }
 
+    private function assignRoleToUser($userId) {
+        $auth = Yii::$app->authManager;
+        $item = $auth->getRole('Merchant');
+        $auth->assign($item, $userId);
+    }
+
+    public function actionUpdate($id) {
+        $model = $this->findUserModel($id);
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Item has been saved.');
             return $this->redirect(['index']);
@@ -62,6 +79,14 @@ class MerchantsController extends Controller {
             return $model;
         } else {
             return new Merchants();
+        }
+    }
+
+    protected function findUserModel($id) {
+        if (($model = User::findOne(['id' => $id])) !== null) {
+            return $model;
+        } else {
+            return new User();
         }
     }
 }

@@ -7,8 +7,6 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use common\models\Departments;
-use common\models\Request;
 
 /**
  * User model
@@ -41,18 +39,12 @@ class User extends ActiveRecord implements IdentityInterface {
         return '{{%users}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors() {
         return [
             TimestampBehavior::class,
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules() {
         return [
             [['email', 'status'], 'required'],

@@ -82,7 +82,7 @@ class ProfileController extends Controller {
             if ($model->validatePassword($model->password)) {
                 $model->setPassword($model->newpassword);
                 if ($model->save(false)) {
-                    Yii::$app->session->setFlash('success', 'Profile password updated successfully.');
+                    Yii::$app->session->setFlash('success', 'Password updated successfully.');
                     return $this->redirect(['index']);
                 }
             }

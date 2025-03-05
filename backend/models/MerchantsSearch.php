@@ -9,13 +9,12 @@ use backend\models\Merchants;
 /**
  * MerchantsSearch represents the model behind the search form of `backend\models\Merchants`.
  */
-class MerchantsSearch extends Merchants
-{
+class MerchantsSearch extends Merchants {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['first_name', 'bussiness_name', 'last_name', 'brn', 'mobile', 'dor', 'type', 'address', 'notes', 'img'], 'safe'],
@@ -25,8 +24,7 @@ class MerchantsSearch extends Merchants
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +36,7 @@ class MerchantsSearch extends Merchants
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Merchants::find();
 
         // add conditions that should always apply here
@@ -58,22 +55,10 @@ class MerchantsSearch extends Merchants
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'dor' => $this->dor,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+
         ]);
 
-        $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'bussiness_name', $this->bussiness_name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'brn', $this->brn])
-            ->andFilterWhere(['like', 'mobile', $this->mobile])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'notes', $this->notes])
-            ->andFilterWhere(['like', 'img', $this->img]);
+        $query->andFilterWhere(['like', 'bussiness_name', $this->bussiness_name]);
 
         return $dataProvider;
     }

@@ -37,21 +37,24 @@ class AdminsController extends Controller {
 
     public function actionCreate() {
         $model = new User();
-
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            $auth = Yii::$app->authManager;
-            $item = $auth->getRole('Admin');
-            $auth->assign($item, $model->id);
-            Yii::$app->session->setFlash('success', 'Item has been saved.');
+            $this->assignAdminRole($model);
+            Yii::$app->session->setFlash('success', 'Admin has been created successfully.');
             return $this->redirect(['index']);
         }
+    }
+
+    private function assignAdminRole($model) {
+        $auth = Yii::$app->authManager;
+        $item = $auth->getRole('Admin');
+        $auth->assign($item, $model->id);
     }
 
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Item has been saved.');
+            Yii::$app->session->setFlash('success', 'Admin has been updated successfully.');
             return $this->redirect(['index']);
         }
     }

@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use backend\models\User;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "merchants".
@@ -24,7 +26,7 @@ use Yii;
  *
  * @property Offers[] $offers
  * @property Packages[] $packages
- * @property Users $user
+ * @property User $user
  */
 class Merchants extends \yii\db\ActiveRecord {
 
@@ -32,6 +34,7 @@ class Merchants extends \yii\db\ActiveRecord {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    public $image;
     public $email;
     public $status;
 
@@ -39,17 +42,22 @@ class Merchants extends \yii\db\ActiveRecord {
         return 'merchants';
     }
 
+    public function behaviors() {
+        return [
+            TimestampBehavior::class,
+        ];
+    }
+
     public function rules() {
         return [
             [['first_name', 'bussiness_name', 'last_name', 'brn', 'email', 'status'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['user_id', 'dor', 'type', 'address', 'img'], 'safe'],
+            [['user_id', 'dor', 'type', 'address', 'img', 'email', 'status', 'img'], 'safe'],
             [['notes'], 'string'],
             [['first_name', 'bussiness_name', 'last_name', 'type', 'address', 'img'], 'string', 'max' => 255],
             [['brn', 'mobile'], 'string', 'max' => 15],
             [['brn'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
-            [['email'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['email'], 'email'],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
@@ -83,6 +91,24 @@ class Merchants extends \yii\db\ActiveRecord {
     }
 
     public function getUser() {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function createUser() {
+        $user = new User();
+        $user->email = $this->email;
+        $user->status = $this->status;
+        if ($user->save()) {
+            return $user->id;
+        }
+        return false;
+    }
+
+    public function getImgURL() {
+        if ($this->img != null) {
+            return Yii::$app->params['back_host'] . 'merchant/' . $this->img;
+        } else {
+            return Yii::$app->params['back_host'] . 'default.jpg';
+        }
     }
 }
