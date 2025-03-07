@@ -5,134 +5,81 @@ namespace backend\controllers;
 use backend\models\Memberships;
 use backend\models\MembershipsSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii2mod\rbac\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use Yii;
+use backend\models\Profiles;
+use backend\models\Packages;
+use backend\models\User;
 
 /**
  * MembershipsController implements the CRUD actions for Memberships model.
  */
-class MembershipsController extends Controller
-{
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+class MembershipsController extends Controller {
+
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'allowActions' => [
+                    'index',
+                    'create',
+                    'update'
+                ]
+            ],
+        ];
     }
 
-    /**
-     * Lists all Memberships models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
+    public function actionIndex($profile_id = null, $package_id = null) {
+        if ($profile_id && $package_id) {
+            $model = $this->findModel($profile_id, $package_id);
+        } else {
+            $model = new Memberships();
+        }
         $searchModel = new MembershipsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
+        $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
+        $profiles = Profiles::find()
+                ->select(['profiles.id', "CONCAT(profiles.first_name, ' ', profiles.last_name) AS full_name"])
+                ->innerJoinWith(['user' => function ($query) {
+                        $query->from(['user' => User::tableName()])
+                                ->andWhere(['user.status' => 10]); // Filter users with status 10
+                    }], false) // The `false` prevents Yii from auto-selecting `user.*`
+                ->asArray()
+                ->all();
+        $profilesList = ArrayHelper::map($profiles, 'id', 'full_name');
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'packages' => $packages,
+                    'members' => $profilesList,
+                    'model' => $model,
         ]);
     }
 
-    /**
-     * Displays a single Memberships model.
-     * @param int $profile_id Profile ID
-     * @param int $package_id Package ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($profile_id, $package_id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($profile_id, $package_id),
-        ]);
-    }
-
-    /**
-     * Creates a new Memberships model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Memberships();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'profile_id' => $model->profile_id, 'package_id' => $model->package_id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Membership has been created successfully.');
+            return $this->redirect(['index']);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Updates an existing Memberships model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $profile_id Profile ID
-     * @param int $package_id Package ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($profile_id, $package_id)
-    {
+    public function actionUpdate($profile_id, $package_id) {
         $model = $this->findModel($profile_id, $package_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'profile_id' => $model->profile_id, 'package_id' => $model->package_id]);
+            Yii::$app->session->setFlash('success', 'Membership has been updated successfully.');
+            return $this->redirect(['index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Deletes an existing Memberships model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $profile_id Profile ID
-     * @param int $package_id Package ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($profile_id, $package_id)
-    {
-        $this->findModel($profile_id, $package_id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Memberships model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $profile_id Profile ID
-     * @param int $package_id Package ID
-     * @return Memberships the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($profile_id, $package_id)
-    {
+    protected function findModel($profile_id, $package_id) {
         if (($model = Memberships::findOne(['profile_id' => $profile_id, 'package_id' => $package_id])) !== null) {
             return $model;
+        } else {
+            return new Memberships();
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

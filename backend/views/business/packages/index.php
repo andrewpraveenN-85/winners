@@ -2,99 +2,108 @@
 
 use backend\models\Packages;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
-use yii\widgets\DetailView;
+use backend\models\User;
 
 /** @var yii\web\View $this */
 /** @var backend\models\PackagesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
-
 $this->title = 'Packages';
 $this->params['breadcrumbs'][] = 'Business';
 $this->params['breadcrumbs'][] = $this->title;
-
-// Initialize model if editing (from URL parameter) or create new one
-$model = Yii::$app->request->get('id') ?
-    Packages::findOne(Yii::$app->request->get('id')) :
-    new Packages();
-
-// For view modal
-$viewModel = Yii::$app->request->get('view_id') ?
-    Packages::findOne(Yii::$app->request->get('view_id')) :
-    null;
 ?>
 <div class="packages-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
-            Create Package
+            Create
         </button>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-
             'name',
-            // 'description:ntext',
-            'duration',
-            'entry_point',
-            'smart_saving_events',
             [
-                'attribute' => 'status',
+                'attribute' => 'duration',
+                'value' => 'duration',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'duration',
+                        [
+                            'monthly' => 'Monthly',
+                            'yearly' => 'yearly',
+                        ],
+                        ['class' => 'form-control', 'prompt' => 'Select']
+                ),
+            ],
+            [
+                'attribute' => 'entry_point',
+                'filter' => Html::activeTextInput($searchModel, 'entry_point', [
+                    'class' => 'form-control',
+                    'type' => 'number',
+                    'step' => '1', // Ensures only whole numbers are entered
+                    'min' => '1'
+                ]),
+            ],
+            [
+                'attribute' => 'smart_saving_events',
                 'value' => function ($model) {
-                    return $model->status ? 'Active' : 'Inactive';
+                    return $model->smart_saving_events ? 'True' : 'False';
                 },
                 'filter' => Html::activeDropDownList(
-                    $searchModel,
-                    'status',
-                    [0 => 'Inactive', 1 => 'Active'],
-                    ['class' => 'form-control', 'prompt' => 'All']
-                )
+                        $searchModel,
+                        'smart_saving_events',
+                        ['1' => 'True', '0' => 'False'],
+                        ['class' => 'form-control', 'prompt' => 'Select']
+                ),
             ],
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'status',
+                'value' => 'statusText',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'status',
+                        [
+                            Packages::STATUS_ACTIVE => 'Active',
+                            Packages::STATUS_INACTIVE => 'Inactive',
+                            Packages::STATUS_DELETED => 'Deleted',
+                        ],
+                        ['class' => 'form-control', 'prompt' => 'Select']
+                ),
+            ],
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view} {update}',
+                'template' => '{custom}',
                 'buttons' => [
-                    'view' => function ($url, $model, $key) {
+                    'custom' => function ($url, $data, $key) {
                         return Html::a(
-                            '<i class="bi bi-eye"></i> View',
-                            ['index', 'view_id' => $model->id],
-                            [
-                                'class' => 'btn btn-secondary',
-                                'data' => ['pjax' => 0],
-                            ]
-                        );
-                    },
-                    'update' => function ($url, $model, $key) {
-                        return Html::a(
-                            '<i class="bi bi-pencil"></i> Update',
-                            ['index', 'id' => $model->id],
-                            [
-                                'class' => 'btn btn-primary',
-                                'data' => ['pjax' => 0],
-                            ]
+                                'Update',
+                                ['index', 'id' => $data->id],
+                                [
+                                    'class' => 'btn btn-primary',
+                                    'data' => [
+                                        'pjax' => 0, // Ensure a full page load instead of PJAX.
+                                    ],
+                                ]
                         );
                     },
                 ],
             ],
         ],
-    ]); ?>
+    ]);
+    ?>
 
     <!-- Create/Update Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <?php if ($model->isNewRecord) { ?>
                     <?php $form = ActiveForm::begin(['action' => ['create'], 'options' => ['enctype' => 'multipart/form-data']]); ?>
@@ -106,32 +115,71 @@ $viewModel = Yii::$app->request->get('view_id') ?
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'class' => 'form-control mb-2']) ?>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'class' => 'form-control mb-2']) ?>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <?= $form->field($model, 'description')->textarea(['rows' => 2, 'class' => 'form-control mb-2']) ?>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <?= $form->field($model, 'duration')->dropDownList(['monthly' => 'Monthly', 'yearly' => 'Yearly'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
+                                </div>
+                                <div class="col-6">
+                                    <?= $form->field($model, 'entry_point')->input('number', ['class' => 'form-control mb-2', 'min' => 1, 'step' => 1]) ?>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <?= $form->field($model, 'smart_saving_events')->checkbox(['label' => 'Smart Saving Events']) ?>
+                                </div>
+                                <div class="col-6">
+                                    <?= $form->field($model, 'status')->dropDownList([9 => 'Inactive', 10 => 'Active'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <?=
+                            GridView::widget([
+                                'dataProvider' => $merchantDataProvider,
+                                'columns' => [
+                                    [
+                                        'class' => 'yii\grid\CheckboxColumn',
+                                        'name' => 'Merchants', // The name of the checkbox
+                                        'checkboxOptions' => function ($model) {
+                                            return [
+                                        'value' => $model->id, // Value that will be submitted when checkbox is selected
+                                        'class' => 'permission-checkbox', // Add a class to select checkboxes via JS
+                                            ];
+                                        }
+                                    ],
+                                    'bussiness_name',
+                                    [
+                                        'label' => 'Discount Rate',
+                                        'format' => 'raw',
+                                        'value' => function ($model) {
+                                            return Html::textInput("discount_rate[{$model->id}]", '20', [
+                                                'class' => 'form-control',
+                                                'type' => 'number',
+                                                'min' => 0,
+                                                'step' => 0.01,
+                                                'value' => 20
+                                            ]);
+                                        }
+                                    ],
+                                ],
+                            ]);
+                            ?>
+                            <?= $form->field($model, 'merchants')->textInput(['type' => 'hidden'])->label(false) ?>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <?= $form->field($model, 'description')->textarea(['rows' => 6, 'class' => 'form-control mb-2']) ?>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <?= $form->field($model, 'duration')->dropDownList(['monthly' => 'Monthly', 'yearly' => 'Yearly'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
-                        </div>
-                        <div class="col-6">
-                            <?= $form->field($model, 'entry_point')->textInput(['class' => 'form-control mb-2']) ?>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <?= $form->field($model, 'smart_saving_events')->textInput(['class' => 'form-control mb-2']) ?>
-                        </div>
-                        <div class="col-6">
-                            <?= $form->field($model, 'status')->dropDownList([0 => 'Inactive', 1 => 'Active'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <?= Html::submitButton('Save', ['class' => 'btn btn-success w-100']) ?>
@@ -140,69 +188,69 @@ $viewModel = Yii::$app->request->get('view_id') ?
             </div>
         </div>
     </div>
-
-    <!-- View Modal -->
-    <?php if ($viewModel): ?>
-        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewModalLabel">Package: <?= Html::encode($viewModel->name) ?></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <?= DetailView::widget([
-                            'model' => $viewModel,
-                            'attributes' => [
-                                'id',
-                                'name',
-                                'description:ntext',
-                                'duration',
-                                'entry_point',
-                                'smart_saving_events',
-                                [
-                                    'attribute' => 'status',
-                                    'value' => function ($model) {
-                                        return $model->status ? 'Active' : 'Inactive';
-                                    }
-                                ],
-                                'created_at',
-                                'updated_at',
-                            ],
-                        ]) ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
 </div>
 
 <?php
 $this->registerJs("
     $(document).ready(function() {
-        // For edit modal
-        if ('" . Yii::$app->request->get('id') . "') {
+        // Show the modal if 'id' parameter exists in the URL
+        if ('" . Yii::$app->request->get('id') . "' !== '') {
             $('#modal').modal('show');
         }
-        
-        // For view modal
-        if ('" . Yii::$app->request->get('view_id') . "') {
-            $('#viewModal').modal('show');
-        }
-        
-        // Edit modal close handler
+
+        // Redirect user when the modal is hidden
         var myModalEl = document.getElementById('modal');
         myModalEl.addEventListener('hidden.bs.modal', function (event) {
             window.location.href = '/business/packages';
         });
-        
-        // View modal close handler
-        var viewModalEl = document.getElementById('viewModal');
-        if (viewModalEl) {
-            viewModalEl.addEventListener('hidden.bs.modal', function (event) {
-                window.location.href = '/business/packages';
+
+        // Get stored merchant-discount values if editing
+        var merchantsField = $('input[name=\"Packages[merchants]\"]').val();
+        if (merchantsField) {
+            var merchantsArray = merchantsField.split(','); // Convert stored data into an array
+
+            merchantsArray.forEach(function(item) {
+                var parts = item.split('-'); // Split merchant ID and discount rate
+                var merchantId = parts[0];
+                var discountRate = parts[1];
+
+                // Check the corresponding checkbox
+                $('.permission-checkbox[value=\"' + merchantId + '\"]').prop('checked', true);
+
+                // Set the corresponding discount input value
+                $(\"input[name='discount_rate[\" + merchantId + \"]']\").val(discountRate);
             });
+        }
+
+        // Update merchants field when checkbox state changes
+        $('.permission-checkbox').on('change', function() {
+            updateMerchantsField();
+            $(this).closest('tr').toggleClass('selected', this.checked);
+        });
+
+        // Update the merchants field just before form submission
+        $('form').on('beforeSubmit', function() {
+            updateMerchantsField();
+
+            var merchants = $('input[name=\"Packages[merchants]\"]').val();
+            if (!merchants) {
+                alert('Please select at least one merchant.');
+                return false;
+            }
+            return true;
+        });
+
+        // Function to update the hidden merchants input field
+        function updateMerchantsField() {
+            var merchants = [];
+
+            $('.permission-checkbox:checked').each(function() {
+                var merchantId = $(this).val();
+                var discountRate = $(\"input[name='discount_rate[\" + merchantId + \"]']\").val();
+                merchants.push(merchantId + '-' + discountRate);
+            });
+
+            $('input[name=\"Packages[merchants]\"]').val(merchants.join(','));
         }
     });
 ", \yii\web\View::POS_END);
-?>

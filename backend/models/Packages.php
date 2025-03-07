@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "packages".
@@ -23,94 +24,77 @@ use Yii;
  * @property Offers[] $offers
  * @property Profiles[] $profiles
  */
-class Packages extends \yii\db\ActiveRecord
-{
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
+class Packages extends \yii\db\ActiveRecord {
+
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+    
+    public $merchants;
+
+    public static function tableName() {
         return 'packages';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
+    public function behaviors() {
         return [
-            [['name', 'duration', 'smart_saving_events', 'status', 'created_at', 'updated_at'], 'required'],
-            [['description', 'duration'], 'string'],
-            [['entry_point', 'smart_saving_events', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            TimestampBehavior::class,
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
+    public function rules() {
         return [
-            'id' => 'ID',
+            [['name', 'duration', 'entry_point', 'smart_saving_events', 'status', 'merchants'], 'required'],
+            [['description', 'duration'], 'string'],
+            [['entry_point', 'smart_saving_events', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['name'], 'string', 'max' => 255],
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+        ];
+    }
+
+    public function attributeLabels() {
+        return [
             'name' => 'Name',
             'description' => 'Description',
             'duration' => 'Duration',
             'entry_point' => 'Entry Point',
             'smart_saving_events' => 'Smart Saving Events',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Created',
+            'updated_at' => 'Updated',
         ];
     }
 
-    /**
-     * Gets query for [[Draws]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDraws()
-    {
+    public function getDraws() {
         return $this->hasMany(Draws::class, ['package_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Memberships]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMemberships()
-    {
+    public function getMemberships() {
         return $this->hasMany(Memberships::class, ['package_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Merchants]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMerchants()
-    {
+    public function getMerchants() {
         return $this->hasMany(Merchants::class, ['id' => 'merchant_id'])->viaTable('offers', ['package_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Offers]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOffers()
-    {
+    public function getOffers() {
         return $this->hasMany(Offers::class, ['package_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Profiles]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfiles()
-    {
+    public function getProfiles() {
         return $this->hasMany(Profiles::class, ['id' => 'profile_id'])->viaTable('memberships', ['package_id' => 'id']);
+    }
+    
+    public function getStatusText() {
+        if ($this->status == self::STATUS_ACTIVE) {
+            return 'ACTIVE';
+        }
+        if ($this->status == self::STATUS_INACTIVE) {
+            return 'INACTIVE';
+        }
+        if ($this->status == self::STATUS_DELETED) {
+            return 'DELETED';
+        }
     }
 }

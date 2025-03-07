@@ -53,4 +53,33 @@ class MerchantsSearch extends Merchants {
 
         return $dataProvider;
     }
+    
+    public function packageSearch($params) {
+        $query = Merchants::find()
+        ->joinWith(['user' => function ($query) {
+            $query->from(['user' => User::tableName()]);  // Alias the `users` table as `user`
+        }]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'user.status' => $this->status,  // Reference status from the User model
+        ]);
+
+        $query->andFilterWhere(['like', 'bussiness_name', $this->bussiness_name])
+              ->andFilterWhere(['like', 'brn', $this->brn])  ;
+
+        return $dataProvider;
+    }
 }

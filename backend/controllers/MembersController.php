@@ -30,7 +30,6 @@ class MembersController extends Controller {
         $model->email = $id ? $model->user->email : NULL;
         $searchModel = new ProfilesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,

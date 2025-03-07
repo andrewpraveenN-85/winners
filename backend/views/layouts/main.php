@@ -110,6 +110,11 @@ AppAsset::register($this);
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/memberships">
+                                <i class="fa fa-chain fa-fw fa-sm"></i>Memberships
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/draws">
                                 <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
                             </a>

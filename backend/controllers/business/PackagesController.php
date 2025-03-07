@@ -2,133 +2,104 @@
 
 namespace backend\controllers\business;
 
+use Yii;
 use backend\models\Packages;
 use backend\models\PackagesSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii2mod\rbac\filters\AccessControl;
+use backend\models\MerchantsSearch;
+use backend\models\Offers;
 
-/**
- * PackagesController implements the CRUD actions for Packages model.
- */
-class PackagesController extends Controller
-{
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+class PackagesController extends Controller {
+
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'allowActions' => [
+                    'index',
+                    'create',
+                    'update'
+                ]
+            ],
+        ];
     }
 
-    /**
-     * Lists all Packages models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
+    public function actionIndex($id = null) {
+        $model = $id ? $this->findModel($id) : new Packages();
         $searchModel = new PackagesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        $merchantSearchModel = new MerchantsSearch();
+        $merchantDataProvider = $merchantSearchModel->packageSearch($this->request->queryParams);
+
+        $offersString = '';
+        if ($id) {
+            $offers = Offers::find()->where(['package_id' => $id])->all();
+            $offersArray = array_map(function ($offer) {
+                return $offer->merchant_id . '-' . $offer->discount;
+            }, $offers);
+            $offersString = implode(', ', $offersArray);
+        }
+        $model->merchants = $offersString;
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'merchantSearchModel' => $merchantSearchModel,
+                    'merchantDataProvider' => $merchantDataProvider,
+                    'model' => $model
         ]);
     }
 
-    /**
-     * Displays a single Packages model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Packages model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Packages();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $this->clearExistingOffers($model->id);
+            $this->processMerchants($model);
+            Yii::$app->session->setFlash('success', 'Package has been created successfully.');
+            return $this->redirect(['index']);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Updates an existing Packages model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
+    private function clearExistingOffers($packageId) {
+        Offers::deleteAll(['package_id' => $packageId]);
+    }
+
+    private function processMerchants($model) {
+        if ($model->merchants) {
+            $merchantsArray = explode(',', $model->merchants);
+            foreach ($merchantsArray as $offer) {
+                $this->createOffer($offer, $model->id);
+            }
+        }
+    }
+
+    private function createOffer($offer, $packageId) {
+        $parts = explode('-', $offer);
+        $offers = new Offers();
+        $offers->merchant_id = $parts[0];
+        $offers->package_id = $packageId;
+        $offers->discount = $parts[1];
+        $offers->save();
+    }
+
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $this->clearExistingOffers($id);
+            $this->processMerchants($model);
+            Yii::$app->session->setFlash('success', 'Package has been updated successfully.');
             return $this->redirect(['index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
-    /**
-     * Deletes an existing Packages model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Packages model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Packages the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Packages::findOne(['id' => $id])) !== null) {
             return $model;
+        } else {
+            return new Packages();
         }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
