@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php $form = ActiveForm::begin(['action' => ['update', 'profile_id' => $model->profile_id, 'package_id' => $model->package_id], 'options' => ['enctype' => 'multipart/form-data']]); ?>
                 <?php } ?>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><?= $model->isNewRecord ? 'Create Membership' : 'Update Membership - ' . Html::encode($model->profile->first_name.' '.$model->profile->first_name) ?></h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><?= $model->isNewRecord ? 'Create Membership' : 'Update Membership - ' . Html::encode($model->profile->first_name . ' ' . $model->profile->first_name) ?></h5>
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $this->registerJs("
     $(document).ready(function() {
-        if ('" . Yii::$app->request->get('profile_id') . "' && '".Yii::$app->request->get('package_id')."') {
+        if ('" . Yii::$app->request->get('profile_id') . "' && '" . Yii::$app->request->get('package_id') . "') {
             $('#modal').modal('show');
         }
         var myModalEl = document.getElementById('modal');

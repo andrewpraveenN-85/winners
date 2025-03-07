@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+
 /**
  * This is the model class for table "events".
  *
@@ -26,7 +27,7 @@ class Events extends \yii\db\ActiveRecord {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-    
+
     public static function tableName() {
         return 'events';
     }
@@ -70,5 +71,17 @@ class Events extends \yii\db\ActiveRecord {
 
     public function getProfiles() {
         return $this->hasMany(Profiles::class, ['id' => 'profile_id'])->viaTable('activity', ['event_id' => 'id']);
+    }
+
+    public function getStatusText() {
+        if ($this->status == self::STATUS_ACTIVE) {
+            return 'ACTIVE';
+        }
+        if ($this->status == self::STATUS_INACTIVE) {
+            return 'INACTIVE';
+        }
+        if ($this->status == self::STATUS_DELETED) {
+            return 'DELETED';
+        }
     }
 }
