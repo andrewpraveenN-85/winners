@@ -10,29 +10,38 @@ $this->title = "Login";
 ?>
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow" style="width: 24rem;">
-        <h4 class="text-center mb-3">Log in</h4>
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-        <div class="mb-3">
-            <label for="username" class="form-label">Email</label>
-            <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => 'Email'])->label(false) ?>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label(false) ?>
-        </div>
-        <div class="form-check mb-3">
-            <?= $form->field($model, 'rememberMe')->checkbox()->label("Remember me") ?>
-        </div>
-        <?= Html::submitButton('Log in', ['class' => 'btn btn-warning w-100', 'name' => 'login-button']) ?>
-        <div class="row mt-2">
-            <div class="text-start col-6">
-                <?= Html::a('Register an Account', ['site/register'], ['class' => 'text-decoration-none']) ?>
+    <div class="row">
+        <div class="col-6">
+            <div class="card p-4 shadow" style="width: 24rem;">
+                <h4 class="text-center mb-3">Log in</h4>
+                <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Email</label>
+                    <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => 'Email'])->label(false) ?>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label(false) ?>
+                </div>
+                <div class="form-check mb-3">
+                    <?= $form->field($model, 'rememberMe')->checkbox()->label("Remember me") ?>
+                </div>
+                <?= Html::submitButton('Log in', ['class' => 'btn btn-warning w-100', 'name' => 'login-button']) ?>
+                <div class="row mt-2">
+                    <div class="text-start col-6">
+                        <?= Html::a('Register an Account', ['site/register'], ['class' => 'text-decoration-none']) ?>
+                    </div>
+                    <div class="text-end col-6">
+                        <?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-decoration-none']) ?>
+                    </div>
+                </div>
+                <?php ActiveForm::end(); ?>
             </div>
-            <div class="text-end col-6">
-                <?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-decoration-none']) ?>
-            </div>
         </div>
-        <?php ActiveForm::end(); ?>
+
+        <div class="col-6">
+            <img src="/media/logo.png" width="400px" alt=""/>
+        </div>
     </div>
+
 </div>

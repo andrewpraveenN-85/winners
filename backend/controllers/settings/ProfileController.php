@@ -7,6 +7,7 @@ use backend\models\User;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii2mod\rbac\filters\AccessControl;
+use backend\models\Profiles;
 
 class ProfileController extends Controller {
 
@@ -16,25 +17,41 @@ class ProfileController extends Controller {
                 'class' => AccessControl::class,
                 'allowActions' => [
                     'index',
-                    'update'
+                    'update',
+                    'picture',
+                    'password'
                 ]
             ],
         ];
     }
 
     public function actionIndex() {
-        $model = $this->findModel(Yii::$app->user->id);
         $userRole = key(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
+        $passwordmodel = $this->findModel(Yii::$app->user->id);
+        if ($userRole === 'Admin') {
+            $model = $this->findModel(Yii::$app->user->id);
+        } elseif ($userRole === 'Merchant') {
+            
+        } elseif ($userRole === 'Profile') {
+            $model = Profiles::find()->where(['user_id' => Yii::$app->user->id])->one();
+            $model->email = $passwordmodel->email;
+            $model->status = $passwordmodel->status;
+        } else {
+            
+        }
+
         return $this->render('index', [
                     'model' => $model,
-                    'userRole' => $userRole
+                    'userRole' => $userRole,
+                    'passwordmodel' => $passwordmodel
         ]);
     }
 
     public function actionUpdate() {
-        $model = $this->findModel(Yii::$app->user->id);
+
         $userRole = key(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
         if ($userRole === 'Admin') {
+            $model = $this->findModel(Yii::$app->user->id);
             if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
                 Yii::$app->session->setFlash('success', 'Profile updated successfully.');
                 return $this->redirect(['index']);
@@ -42,30 +59,37 @@ class ProfileController extends Controller {
         } elseif ($userRole === 'Merchant') {
             
         } elseif ($userRole === 'Profile') {
-            
+            $model = Profiles::find()->where(['user_id' => Yii::$app->user->id])->one();
+            $model->status = 10;
+            if ($this->request->isPost && $model->load($this->request->post()) && $this->updateUserAndSave($model) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Profile updated successfully.');
+                return $this->redirect(['index']);
+            } else {
+                print_r($model->getErrors());
+            }
         } else {
             return $this->redirect(['index']);
         }
     }
 
-    public function actionImg() {
-        $model = $this->findModel(Yii::$app->user->id);
-        if (!is_dir(Yii::getAlias('@webroot/storage/' . $model->company_id))) {
-            mkdir(Yii::getAlias('@webroot/storage/' . $model->company_id), 0777, true);
-        }
-        if (!is_dir(Yii::getAlias('@webroot/storage/' . $model->company_id . '/profile_picture'))) {
-            mkdir(Yii::getAlias('@webroot/storage/' . $model->company_id . '/profile_picture'), 0777, true);
-        }
+    private function updateUserAndSave($model) {
+        $user = $this->findModel(Yii::$app->user->id);
+        $user->email = $model->email;
+        return $user->save(false);
+    }
+
+    public function actionPicture() {
+        $model = Profiles::find()->where(['user_id' => Yii::$app->user->id])->one();
         if (Yii::$app->request->isPost) {
-            if (Yii::$app->request->post('remove_picture') && !empty($model->profile_picture) && file_exists(Yii::getAlias('@webroot/storage/' . $model->company_id . '/profile_picture/' . $model->profile_picture))) {
-                unlink(Yii::getAlias('@webroot/storage/' . $model->company_id . '/profile_picture/' . $model->profile_picture));
-                $model->profile_picture = null;
+            if (Yii::$app->request->post('remove_picture') && !empty($model->img) && file_exists(Yii::getAlias('@webroot/uploads/profile' . $model->img))) {
+                unlink(Yii::getAlias('@webroot/uploads/profile/' . $model->img));
+                $model->img = null;
             } else {
-                $image = UploadedFile::getInstance($model, 'picture');
+                $image = UploadedFile::getInstance($model, 'image');
                 if (!empty($image)) {
-                    $uploadPath = Yii::getAlias('@webroot/storage/' . $model->company_id . '/profile_picture/') . $model->id . '.' . $image->getExtension();
+                    $uploadPath = Yii::getAlias('@webroot/uploads/profile/') . $model->id . "_Image" . '.' . $image->getExtension();
                     if ($image->saveAs($uploadPath)) {
-                        $model->profile_picture = $model->id . '.' . $image->getExtension();
+                        $model->img = $model->id . "_Image" . '.' . $image->getExtension();
                     }
                 }
             }
@@ -86,6 +110,14 @@ class ProfileController extends Controller {
                     return $this->redirect(['index']);
                 }
             }
+        }
+    }
+
+    protected function findProfileModel($id) {
+        if (($model = Profiles::findOne(['id' => $id])) !== null) {
+            return $model;
+        } else {
+            return new Profiles();
         }
     }
 

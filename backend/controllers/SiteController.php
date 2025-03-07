@@ -103,7 +103,7 @@ class SiteController extends Controller {
         $this->layout = 'blank';
 
         $model = new Register();
-        $model->status =10;
+        $model->status = 10;
         $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
 
         if ($this->request->isPost && $model->load($this->request->post())) {

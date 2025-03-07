@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="modal fade" id="editPictureModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <?php $formProfilePicture = ActiveForm::begin(['action' => ['profile-picture'], 'options' => ['enctype' => 'multipart/form-data']]); ?>
+                    <?php $formProfilePicture = ActiveForm::begin(['action' => ['picture'], 'options' => ['enctype' => 'multipart/form-data']]); ?>
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Profile</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -53,18 +53,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="modal-body">
                         <div class="mb-3 text-center">
                             <div class="position-relative d-inline-block overflow-hidden" style="height: 230px;">
-                                <?= Html::img($model->pictureURL, ['class' => 'img-fluid', 'style' => 'height:230px;']); ?>
+                                <?= Html::img($model->imgURL, ['class' => 'img-fluid', 'style' => 'height:230px;']); ?>
                                 <div class="profile-hover-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                                     <label for="profile-upload" class="position-absolute text-white d-flex align-items-center justify-content-center"
                                            style="width: 230px; height: 230px; cursor: pointer;">
                                     </label>
-                                    <?= $formProfilePicture->field($model, 'picture')->fileInput(['id' => 'profile-upload', 'class' => 'd-none', 'onchange' => 'this.form.submit();'])->label(false) ?>
+                                    <?= $formProfilePicture->field($model, 'image')->fileInput(['id' => 'profile-upload', 'class' => 'd-none', 'onchange' => 'this.form.submit();'])->label(false) ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <?php if (!empty($model->profile_picture)): ?>
+                        <?php if (!empty($model->imgUrl)): ?>
                             <button type="submit" name="remove_picture" value="1" class="btn btn-danger btn-sm mt-2">Remove</button>
                         <?php endif; ?>
                     </div>
@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'label' => '',
                             'format' => ['html'],
-                            'value' => Html::img($model->pictureURL, ['class' => 'img-fluid', 'style' => 'height:230px;'])
+                            'value' => Html::img($model->imgURL, ['class' => 'img-fluid', 'style' => 'height:230px;'])
                         ],
                     ],
                 ])
@@ -112,15 +112,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => ['html'],
                             'value' => $model->first_name . ' ' . $model->middle_name . ' ' . $model->last_name
                         ],
-                        'contact_number',
+                        'sin',
                         'email:email',
-                        [
-                            'label' => 'Address',
-                            'format' => ['html'],
-                            'value' => $model->address . ', ' . $model->city->name . ', ' . $model->city->state->name . ', ' . $model->city->state->country->name
-                        ],
-                        'created_at',
-                        'updated_at'
+                        'mobile',
+                        'address',
+                        'dob',
+                        'dor',
+                        'notes',
+                        'created_at:datetime',
+                        'updated_at:datetime'
                     ],
                 ])
                 ?>
@@ -130,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="modal fade" id="editPictureModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <?php $formProfilePicture = ActiveForm::begin(['action' => ['profile-picture'], 'options' => ['enctype' => 'multipart/form-data']]); ?>
+                    <?php $formProfilePicture = ActiveForm::begin(['action' => ['picture'], 'options' => ['enctype' => 'multipart/form-data']]); ?>
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Profile</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -138,18 +138,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="modal-body">
                         <div class="mb-3 text-center">
                             <div class="position-relative d-inline-block overflow-hidden" style="height: 230px;">
-                                <?= Html::img($model->pictureURL, ['class' => 'img-fluid', 'style' => 'height:230px;']); ?>
+                                <?= Html::img($model->imgURL, ['class' => 'img-fluid', 'style' => 'height:230px;']); ?>
                                 <div class="profile-hover-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
                                     <label for="profile-upload" class="position-absolute text-white d-flex align-items-center justify-content-center"
                                            style="width: 230px; height: 230px; cursor: pointer;">
                                     </label>
-                                    <?= $formProfilePicture->field($model, 'picture')->fileInput(['id' => 'profile-upload', 'class' => 'd-none', 'onchange' => 'this.form.submit();'])->label(false) ?>
+                                    <?= $formProfilePicture->field($model, 'image')->fileInput(['id' => 'profile-upload', 'class' => 'd-none', 'onchange' => 'this.form.submit();'])->label(false) ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <?php if (!empty($model->profile_picture)): ?>
+                        <?php if (!empty($model->imgUrl)): ?>
                             <button type="submit" name="remove_picture" value="1" class="btn btn-danger btn-sm mt-2">Remove</button>
                         <?php endif; ?>
                     </div>
@@ -167,15 +167,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal fade" id="editProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <?php if ($userRole === 'Admin') { ?>
             <div class="modal-dialog modal-dialog-centered">
-            <?php } elseif ($userRole === 'Merchant') { ?>
-
-            <?php } elseif ($userRole === 'Profile') { ?>
+            <?php } else { ?>
                 <div class="modal-dialog modal-dialog-centered modal-xl ">
-                    <?php
-                } else {
-                    echo "<div class=\"modal-dialog modal-dialog-centered\">";
-                }
-                ?>
+                <?php } ?>
                 <div class="modal-content">
                     <?php $formProfile = ActiveForm::begin(['action' => ['update']]); ?>
                     <div class="modal-header">
@@ -192,24 +186,38 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php } elseif ($userRole === 'Profile') { ?>
                             <div class="row mb-3">
                                 <div class="col-4">
-                                    <?= $formProfile->field($model, 'first_name')->textInput(['maxlength' => 255, 'placeholder' => 'First name']) ?>
+                                    <?= $formProfile->field($model, 'first_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                                 </div>
                                 <div class="col-4">
-                                    <?= $formProfile->field($model, 'middle_name')->textInput(['maxlength' => 255, 'placeholder' => 'Middle name']) ?>
+                                    <?= $formProfile->field($model, 'middle_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                                 </div>
                                 <div class="col-4">
-                                    <?= $formProfile->field($model, 'last_name')->textInput(['maxlength' => 255, 'placeholder' => 'Last name']) ?>
+                                    <?= $formProfile->field($model, 'last_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-4">
-                                    <?= $formProfile->field($model, 'email')->input('email', ['maxlength' => 255, 'placeholder' => 'Email address']) ?>
+                                <div class="col-3">
+                                    <?= $formProfile->field($model, 'sin')->textInput(['maxlength' => 20, 'class' => 'form-control mb-2']) ?>
                                 </div>
-                                <div class="col-4">
-                                    <?= $formProfile->field($model, 'contact_number')->textInput(['maxlength' => 15, 'placeholder' => 'Conact number', 'pattern' => '^\+?[0-9]*$',]) ?>
+                                <div class="col-3">
+                                    <?= $formProfile->field($model, 'email')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                                 </div>
-                                <div class="col-4">
-                                    <?= $formProfile->field($model, 'address')->textInput(['maxlength' => 255, 'placeholder' => 'Address']) ?>
+                                <div class="col-3">
+                                    <?= $formProfile->field($model, 'mobile')->textInput(['maxlength' => 15, 'class' => 'form-control mb-2']) ?>
+                                </div>
+                                <div class="col-3">
+                                    <?= $formProfile->field($model, 'dob')->input('date', ['class' => 'form-control mb-2']) ?>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-2">
+                                    <?= $formProfile->field($model, 'dor')->input('date', ['class' => 'form-control mb-2']) ?>
+                                </div>
+                                <div class="col-5">
+                                    <?= $formProfile->field($model, 'address')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
+                                </div>
+                                <div class="col-5">
+                                    <?= $formProfile->field($model, 'notes')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                                 </div>
                             </div>
                             <?php
@@ -237,7 +245,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="modal-body">
                         <div class="mb-3">
                             <?=
-                            $formPassword->field($model, 'password', [
+                            $formPassword->field($passwordmodel, 'password', [
                                 'template' => '{label}<div class="input-group">{input}
                             <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
                             {error}</div>',
@@ -246,7 +254,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="mb-3">
                             <?=
-                            $formPassword->field($model, 'newpassword', [
+                            $formPassword->field($passwordmodel, 'newpassword', [
                                 'template' => '{label}<div class="input-group">{input}
                             <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
                             <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>

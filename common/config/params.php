@@ -7,5 +7,5 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'uploadPathIMG' => dirname(dirname(__DIR__)) . '/backend/web/uploads/',
-    'back_host' => 'http://winners.local//uploads/'
+    'back_host' => 'http://winners.local/uploads/'
 ];
