@@ -18,7 +18,7 @@ class AppAsset extends AssetBundle
             'sizes' => '32x32',
         ],
         //'css/bootstrap.min.css',
-        //'css/site.css',
+        'css/site.css',
         //'css/dashboard.css',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
     ];

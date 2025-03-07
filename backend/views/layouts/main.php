@@ -81,10 +81,6 @@ AppAsset::register($this);
                 margin: 0 0 15px 0;
             }
 
-            .has-error > input, .has-error > select {
-                border: 0.5px red solid;
-            }
-
             .has-error > .help-block {
                 color:red;
             }
@@ -202,7 +198,7 @@ AppAsset::register($this);
                                 </a>
                             </li>
                         <?php endif; ?>
-                            <?php if (Yii::$app->user->can('myMembershipCard')): ?>
+                        <?php if (Yii::$app->user->can('myMembershipCard')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown" href="/my-membership/card">
                                     <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Membership Card
