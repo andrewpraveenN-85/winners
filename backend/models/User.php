@@ -51,7 +51,7 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email', 'status', 'password', 'newpassword'], 'safe'],
             [['email'], 'unique'],
             [['email'], 'email'],
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -260,7 +260,7 @@ class User extends ActiveRecord implements IdentityInterface {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->setPassword($this->id . $this->email);
+                $this->setPassword($this->email);
                 $this->generateAuthKey();
             }
             return true;

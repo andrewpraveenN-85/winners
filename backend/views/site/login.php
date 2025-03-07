@@ -24,9 +24,14 @@ $this->title = "Login";
         <div class="form-check mb-3">
             <?= $form->field($model, 'rememberMe')->checkbox()->label("Remember me") ?>
         </div>
-        <?= Html::submitButton('Log in', ['class' => 'btn btn-primary w-100', 'name' => 'login-button']) ?>
-        <div class="text-end mt-2">
-            <?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-decoration-none']) ?>
+        <?= Html::submitButton('Log in', ['class' => 'btn btn-warning w-100', 'name' => 'login-button']) ?>
+        <div class="row mt-2">
+            <div class="text-start col-6">
+                <?= Html::a('Register an Account', ['site/register'], ['class' => 'text-decoration-none']) ?>
+            </div>
+            <div class="text-end col-6">
+                <?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-decoration-none']) ?>
+            </div>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

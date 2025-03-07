@@ -10,7 +10,11 @@ use yii\web\Controller;
 use yii\web\Response;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
-
+use backend\models\Packages;
+use yii\helpers\ArrayHelper;
+use backend\models\Register;
+use backend\models\Memberships;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -26,7 +30,7 @@ class SiteController extends Controller {
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'request-password-reset', 'reset-password'],
+                        'actions' => ['login', 'error', 'request-password-reset', 'reset-password', 'register'],
                         'allow' => true,
                     ],
                     [
@@ -89,6 +93,66 @@ class SiteController extends Controller {
         return $this->render('login', [
                     'model' => $model,
         ]);
+    }
+
+    public function actionRegister() {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $this->layout = 'blank';
+
+        $model = new Register();
+        $model->status =10;
+        $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
+
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $userId = $this->createUserAndSave($model);
+            if ($userId) {
+                $imageName = $model->id . "_Image";
+                $image = UploadedFile::getInstance($model, 'image');
+                if (!empty($image)) {
+                    $upload = Yii::$app->params['uploadPathIMG'] . 'profile/' . $imageName . '.' . $image->getExtension();
+                    $image->saveAs($upload);
+                    $model->img = $imageName . '.' . $image->getExtension();
+                }
+                $this->assignRoleToUser($userId);
+                $this->createMembership($model->id, $model->package);
+                $model->save(false);
+                Yii::$app->session->setFlash('success', 'Member has been created successfully.');
+                return $this->goBack();
+            }
+        }
+
+        return $this->render('register', [
+                    'model' => $model,
+                    'packages' => $packages,
+        ]);
+    }
+
+    private function createUserAndSave($model) {
+        $userId = $model->createUser();
+        if ($userId) {
+            $model->user_id = $userId;
+            if ($model->save(false)) {
+                return $userId;
+            }
+        }
+        return false;
+    }
+
+    private function assignRoleToUser($userId) {
+        $auth = Yii::$app->authManager;
+        $item = $auth->getRole('Profile');
+        $auth->assign($item, $userId);
+    }
+
+    private function createMembership($profileid, $packageid) {
+        $model = new Memberships();
+        $model->package_id = $packageid;
+        $model->profile_id = $profileid;
+        $model->status = 10;
+        return $model->save();
     }
 
     /**

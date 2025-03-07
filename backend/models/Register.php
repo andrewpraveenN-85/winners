@@ -32,7 +32,7 @@ use yii\behaviors\TimestampBehavior;
  * @property Users $user
  * @property Winners[] $winners
  */
-class Profiles extends \yii\db\ActiveRecord {
+class Register extends \yii\db\ActiveRecord {
 
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
@@ -40,7 +40,11 @@ class Profiles extends \yii\db\ActiveRecord {
 
     public $image;
     public $email;
+    public $password;
     public $status;
+    public $package;
+    public $accept_age;
+    public $accept_terms;
 
     public static function tableName() {
         return 'profiles';
@@ -54,18 +58,22 @@ class Profiles extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['first_name', 'last_name', 'sin', 'email', 'status'], 'required'],
+            [['first_name', 'last_name', 'sin', 'email', 'image', 'dob', 'address', 'dor', 'notes', 'package', 'mobile'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'dob', 'dor', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
             [['first_name', 'middle_name', 'last_name', 'address', 'img'], 'string', 'max' => 255],
             [['sin', 'mobile'], 'string', 'max' => 15],
-            [['dor'], 'string', 'max' => 5],
+            [['dor'], 'string', 'max' => 15],
             [['sin'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['email'], 'email'],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['accept_terms'], 'required', 'requiredValue' => 1, 'message' => 'You must accept the terms.'],
+            [['accept_terms'], 'boolean'], // Ensure it's a boolean value
+            [['accept_age'], 'required', 'requiredValue' => 1, 'message' => 'You must accept the age restrictions.'],
+            [['accept_age'], 'boolean'], // Ensure it's a boolean value
         ];
     }
 
@@ -80,12 +88,12 @@ class Profiles extends \yii\db\ActiveRecord {
             'sin' => 'Security Idenfication No',
             'mobile' => 'Mobile',
             'dob' => 'Date of Birth',
-            'dor' => 'Gender',
+            'dor' => 'Date or Register',
             'address' => 'Address',
             'notes' => 'Notes',
             'img' => 'Picture',
-            'created_at' => 'Created',
-            'updated_at' => 'Updated',
+            'accept_terms' => 'I agree to Competition terms and conditions',
+            'accept_age' => 'I agree that I\'m over the age 18'
         ];
     }
 
@@ -116,7 +124,7 @@ class Profiles extends \yii\db\ActiveRecord {
     public function getWinners() {
         return $this->hasMany(Winners::class, ['profile_id' => 'id']);
     }
-    
+
     public function createUser() {
         $user = new User();
         $user->email = $this->email;

@@ -12,7 +12,7 @@ class ProfilesSearch extends Profiles {
     public function rules() {
         return [
             [['id', 'user_id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['first_name', 'middle_name', 'last_name', 'sin', 'mobile', 'dob', 'gender', 'address', 'notes', 'img'], 'safe'],
+            [['first_name', 'middle_name', 'last_name', 'sin', 'mobile', 'dob', 'dor', 'address', 'notes', 'img'], 'safe'],
         ];
     }
 
