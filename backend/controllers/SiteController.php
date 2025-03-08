@@ -86,7 +86,7 @@ class SiteController extends Controller {
             $user = User::findOne(['id' => Yii::$app->user->id]);
             $membership = Memberships::find()->where(['profile_id' => $profile->id])->orderBy(['created_at' => SORT_DESC])->one();
             $package = Packages::find()->where(['id' => $membership->package_id])->one();
-            $searchModel = new WinnersSearch();
+            $searchModel = new WinnersSearch(['profile_id' => $profile->id]);
             $dataProvider = $searchModel->search($this->request->queryParams);
             return $this->render('profile_index', [
                         'profile' => $profile,

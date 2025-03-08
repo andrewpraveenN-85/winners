@@ -50,11 +50,31 @@ $this->title = 'Dashboard';
                 GridView::widget([
                     'dataProvider' => $dataProvider,
                     'columns' => [
-                        'gift_id',
-                        'created_at',
+                        [
+                            'attribute' => 'gift.draw.package.name',
+                            'label' => 'Package Name',
+                        ],
+                        [
+                            'attribute' => 'gift.draw.id',
+                            'label' => 'Draw ID',
+                        ],
+                        [
+                            'attribute' => 'gift.draw.date_time',
+                            'label' => 'Draw DateTime',
+                        ],
+                        [
+                            'attribute' => 'gift.name',
+                            'label' => 'Gift Name',
+                        ],
+                        [
+                            'attribute' => 'created_at',
+                            'label' => 'Created At',
+                            'format' => ['date', 'php:Y-m-d H:i:s'], // Format timestamp to readable date
+                        ],
                     ],
                 ]);
                 ?>
+
             </div>
         </div>
     </div>
