@@ -15,6 +15,9 @@ use yii\helpers\ArrayHelper;
 use backend\models\Register;
 use backend\models\Memberships;
 use yii\web\UploadedFile;
+use backend\models\User;
+use backend\models\Profiles;
+use backend\models\WinnersSearch;
 
 /**
  * Site controller
@@ -49,9 +52,6 @@ class SiteController extends Controller {
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions() {
         return [
             'error' => [
@@ -60,22 +60,47 @@ class SiteController extends Controller {
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex() {
+    public function beforeAction($action) {
+        if ($action->id === 'error') {
+            // Check if user is logged in or not and set layout accordingly
+            if (Yii::$app->user->isGuest) {
+                Yii::$app->layout = 'blank';  // Use blank layout for logged-in users
+            } else {
+                Yii::$app->layout = 'main';  // Use main layout for guests
+            }
+        }
 
-        return $this->render('index', [
-        ]);
+        return parent::beforeAction($action);  // Always return true to ensure the action runs
     }
 
-    /**
-     * Login action.
-     *
-     * @return string|Response
-     */
+    public function actionIndex() {
+        $userRole = key(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
+        if ($userRole === 'Admin') {
+
+            return $this->render('admin_index', [
+            ]);
+        } elseif ($userRole === 'Merchant') {
+            
+        } elseif ($userRole === 'Profile') {
+            $profile = Profiles::find()->where(['user_id' => Yii::$app->user->id])->one();
+            $user = User::findOne(['id' => Yii::$app->user->id]);
+            $membership = Memberships::find()->where(['profile_id' => $profile->id])->orderBy(['created_at' => SORT_DESC])->one();
+            $package = Packages::find()->where(['id' => $membership->package_id])->one();
+            $searchModel = new WinnersSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+            return $this->render('profile_index', [
+                        'profile' => $profile,
+                        'user' => $user,
+                        'membership' => $membership,
+                        'package' => $package,
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            
+        }
+    }
+
     public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();

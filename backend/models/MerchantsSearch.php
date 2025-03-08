@@ -62,6 +62,7 @@ class MerchantsSearch extends Merchants {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => false,
         ]);
 
         $this->load($params);

@@ -9,39 +9,34 @@ use yii\bootstrap5\Html;
 $this->title = "Login";
 ?>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="row">
-        <div class="col-6">
-            <div class="card p-4 shadow" style="width: 24rem;">
-                <h4 class="text-center mb-3">Log in</h4>
-                <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Email</label>
-                    <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => 'Email'])->label(false) ?>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label(false) ?>
-                </div>
-                <div class="form-check mb-3">
+<div class="container vh-100 d-flex align-items-center">
+    <div class="login-container row">
+        <!-- Left Side - Form -->
+        <div class="col-md-6 login-left">
+            <h3 class="text-warning fw-bold text-center">Log in to your Account</h3>
+            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <div class="mb-3">
+                <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => 'Email', 'class' => 'form-control bg-light text-dark'])->label(false) ?>
+            </div>
+            <div class="mb-3">
+                <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password', 'class' => 'form-control bg-light text-dark'])->label(false) ?>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <div>
                     <?= $form->field($model, 'rememberMe')->checkbox()->label("Remember me") ?>
                 </div>
-                <?= Html::submitButton('Log in', ['class' => 'btn btn-warning w-100', 'name' => 'login-button']) ?>
-                <div class="row mt-2">
-                    <div class="text-start col-6">
-                        <?= Html::a('Register an Account', ['site/register'], ['class' => 'text-decoration-none']) ?>
-                    </div>
-                    <div class="text-end col-6">
-                        <?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-decoration-none']) ?>
-                    </div>
+                <div>
+                    <?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-warning text-decoration-none']) ?>
                 </div>
-                <?php ActiveForm::end(); ?>
             </div>
+            <?= Html::submitButton('Log in', ['class' => 'btn btn-warning w-100', 'name' => 'login-button']) ?>
+            <p class="mt-3 text-center">Don't have an account? <?= Html::a('Create an account', ['site/register'], ['class' => 'text-warning text-decoration-none']) ?></p>
+            <?php ActiveForm::end(); ?>
         </div>
 
-        <div class="col-6">
-            <img src="/media/logo.png" width="400px" alt=""/>
+        <!-- Right Side - Illustration -->
+        <div class="col-md-6 login-right d-flex flex-column align-items-center justify-content-center">
+            <img src="/media/logo.png" width="300px" alt="Logo"/>
         </div>
     </div>
-
 </div>

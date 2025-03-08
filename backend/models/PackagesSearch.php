@@ -17,7 +17,7 @@ class PackagesSearch extends Packages
     public function rules()
     {
         return [
-            [['id', 'entry_point', 'smart_saving_events', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'entry_point', 'smart_saving_events', 'status', 'merchants_discount','created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'duration'], 'safe'],
         ];
     }
@@ -62,8 +62,7 @@ class PackagesSearch extends Packages
             'entry_point' => $this->entry_point,
             'smart_saving_events' => $this->smart_saving_events,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'merchants_discount' => $this->merchants_discount,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

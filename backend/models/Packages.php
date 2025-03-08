@@ -14,6 +14,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $duration
  * @property int $entry_point
  * @property int $smart_saving_events
+ * @property int $merchants_discount
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -44,9 +45,9 @@ class Packages extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['name', 'duration', 'entry_point', 'smart_saving_events', 'status', 'merchants'], 'required'],
+            [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'status', 'merchants'], 'required'],
             [['description', 'duration'], 'string'],
-            [['entry_point', 'smart_saving_events', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['entry_point', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
@@ -60,6 +61,7 @@ class Packages extends \yii\db\ActiveRecord {
             'duration' => 'Duration',
             'entry_point' => 'Entry Point',
             'smart_saving_events' => 'Smart Saving Events',
+            'merchants_discount' => 'Merchants Discount',
             'status' => 'Status',
             'created_at' => 'Created',
             'updated_at' => 'Updated',

@@ -9,24 +9,38 @@ use yii\bootstrap5\ActiveForm;
 $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-request-password-reset">
-    <div class="mt-5 offset-lg-3 col-lg-6" style="border: 1px solid; border-radius: 5%; padding: 25px; background-color: #8080801a;">
-        <h1><?= Html::encode($this->title) ?></h1>
+<div class="container vh-100 d-flex align-items-center justify-content-center">
+    <div class="login-container row">
+        <!-- Left Side - Form -->
+        <div class="col-md-6 login-left">
+            <h3 class="text-warning fw-bold">Forgot your Password?</h3>
+            <p>Enter your email address, and we'll send you a link to reset your password.</p>
 
-        <p>Please fill out your email. A link to reset password will be sent there.</p>
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+                    <div class="mb-3">
+                        <?=
+                        $form->field($model, 'email')->textInput([
+                            'autofocus' => true,
+                            'placeholder' => 'Email',
+                            , 'class' => 'form-control bg-light text-dark'
+                        ])->label(false)
+                        ?>
+                    </div>
+                    <div class="form-group">
+                    <?= Html::submitButton('Send Reset Link', ['class' => 'btn btn-warning w-100']) ?>
+                    </div>
 
-        <div class="row">
-            <div class="col-lg-5">
-                <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
-
-                <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
+<?php ActiveForm::end(); ?>
                 </div>
-
-                <?php ActiveForm::end(); ?>
             </div>
+        </div>
+
+        <!-- Right Side - Illustration -->
+        <div class="col-md-6 login-right">
+            <h5>Reset your password easily!</h5>
+            <p>Receive an email with a secure link to create a new password.</p>
         </div>
     </div>
 </div>

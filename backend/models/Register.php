@@ -58,7 +58,7 @@ class Register extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['first_name', 'last_name', 'sin', 'email', 'image', 'dob', 'address', 'dor', 'notes', 'package', 'mobile'], 'required'],
+            [['first_name', 'last_name', 'sin', 'email', 'image', 'dob', 'address', 'dor', 'package', 'mobile'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'dob', 'dor', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],

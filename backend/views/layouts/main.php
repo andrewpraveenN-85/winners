@@ -29,12 +29,15 @@ AppAsset::register($this);
                 min-height: 100vh;
                 width: 250px; /* Default width */
                 transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transition for width */
+                background-color: #FFA500 !important; /* Match yellow-orange login box */
+                color: #5C3B2E !important;
             }
 
             /* Adjust main content */
             #main-content {
-                /*margin-left: 250px;  Default margin to accommodate sidebar */
                 transition: margin-left 0.3s ease; /* Smooth transition for content shift */
+                color: white; /* Ensure contrast */
+                background-color: #5C3B2E !important; /* Match brown background */
             }
 
             /* When sidebar is collapsed */
@@ -53,10 +56,12 @@ AppAsset::register($this);
                     margin-left: 0;
                 }
             }
+
             .nav-link i {
                 margin-right: 8px; /* Adjust spacing as needed */
                 width: 16px !important;
             }
+
             /* Align the dropdown arrow to the right */
             .dropdown-arrow {
                 margin-left: auto; /* Pushes the arrow to the far right */
@@ -65,6 +70,12 @@ AppAsset::register($this);
             .nav-link {
                 display: flex; /* Ensure proper alignment of elements */
                 align-items: center; /* Vertically center icon and text */
+                color: #5C3B2E !important; /* Sidebar text color */
+            }
+
+            .nav-link:hover {
+                background-color: #D98A00 !important; /* Darker orange hover */
+                color: white !important;
             }
 
             .hint-block {
@@ -82,36 +93,46 @@ AppAsset::register($this);
             }
 
             .has-error > .help-block {
-                color:red;
+                color: red;
             }
 
             .has-success > input, .has-success > select {
                 border: 0.5px #28a745 solid;
             }
+
             .navbar-nav .nav-link {
                 color: brown !important;
-            }
-
-            .navbar-nav .nav-link:hover {
-                color: #8B4513 !important; /* Darker brown on hover */
-            }
-            .navbar-nav .nav-link {
-                color: brown !important; /* Change default link color */
             }
 
             .navbar-nav .nav-link:hover,
             .navbar-nav .nav-link:focus {
                 color: #8B4513 !important; /* Darker brown on hover */
             }
+
             a {
-                color: #8B4513 !important;
+                color: #FFA500 !important;
                 text-decoration: underline;
             }
+
             .img-circle {
                 width: 75px;
                 height: 75px;
                 border-radius: 50%; /* Ensures circular shape */
                 object-fit: cover; /* Prevents distortion */
+                border: 3px solid white;
+            }
+
+            /* Button Styling */
+            .btn-warning {
+                background-color: #FFA500 !important;
+                border-color: #FFA500 !important;
+                color: #5C3B2E !important;
+            }
+
+            .btn-warning:hover {
+                background-color: #D98A00 !important;
+                border-color: #D98A00 !important;
+                color: white !important;
             }
 
         </style>

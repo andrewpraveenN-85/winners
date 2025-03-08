@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'smart_saving_events',
                 'value' => function ($model) {
-                    return $model->smart_saving_events ? 'True' : 'False';
+                    return $model->smart_saving_events ? 'Active' : 'Inactive';
                 },
                 'filter' => Html::activeDropDownList(
                         $searchModel,
@@ -64,6 +64,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         ['1' => 'True', '0' => 'False'],
                         ['class' => 'form-control', 'prompt' => 'Select']
                 ),
+            ],
+            [
+                'attribute' => 'merchants_discount',
+                'filter' => Html::activeTextInput($searchModel, 'merchants_discount', [
+                    'class' => 'form-control',
+                    'type' => 'number',
+                    'step' => '1', // Ensures only whole numbers are entered
+                    'min' => '1'
+                ]),
             ],
             [
                 'attribute' => 'status',
@@ -118,26 +127,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-6">
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'class' => 'form-control mb-2']) ?>
+                                </div>
+                                <div class="col-6">
+                                    <?= $form->field($model, 'description')->textarea(['rows' => 2, 'class' => 'form-control mb-2']) ?>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-12">
-                                    <?= $form->field($model, 'description')->textarea(['rows' => 2, 'class' => 'form-control mb-2']) ?>
+                                <div class="col-4">
+                                    <?= $form->field($model, 'entry_point')->input('number', ['class' => 'form-control mb-2', 'min' => 1, 'step' => 1]) ?>
+                                </div>
+                                <div class="col-4">
+                                    <?= $form->field($model, 'merchants_discount')->input('number', ['class' => 'form-control mb-2', 'min' => 1, 'step' => 1]) ?>
+                                </div>
+                                <div class="col-4">
+                                    <?= $form->field($model, 'smart_saving_events')->checkbox(['label' => 'Smart Saving Events']) ?>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-6">
                                     <?= $form->field($model, 'duration')->dropDownList(['monthly' => 'Monthly', 'yearly' => 'Yearly'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-6">
-                                    <?= $form->field($model, 'entry_point')->input('number', ['class' => 'form-control mb-2', 'min' => 1, 'step' => 1]) ?>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-6">
-                                    <?= $form->field($model, 'smart_saving_events')->checkbox(['label' => 'Smart Saving Events']) ?>
                                 </div>
                                 <div class="col-6">
                                     <?= $form->field($model, 'status')->dropDownList([9 => 'Inactive', 10 => 'Active'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>

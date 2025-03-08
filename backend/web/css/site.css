@@ -11,6 +11,7 @@
 /* User-friendly overall page background color */
 body {
     background-color: var(--neutral-bg-light);
+    font-size: 14px;
     /* Optional: add some padding or adjust as needed */
 }
 

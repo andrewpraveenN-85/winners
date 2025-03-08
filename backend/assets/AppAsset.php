@@ -13,7 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         [
-            'href' => 'icon.png',
+            'href' => 'media/icon.png',
             'rel' => 'icon',
             'sizes' => '32x32',
         ],
