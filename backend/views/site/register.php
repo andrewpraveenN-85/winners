@@ -80,7 +80,7 @@ $this->title = "Register";
             </div>
 
             <div class="mb-3">
-                <?= Html::submitButton('Register', ['class' => 'btn w-100', 'style' => 'background-color: #FFD700; color: #5C4033;']) ?>
+                <?= Html::submitButton('Register', ['class' => 'btn btn-warning w-100']) ?>
             </div>
 
             <p class="mt-3 text-center">Already a member? <?= Html::a('Back to Login', ['site/login'], ['class' => 'text-warning text-decoration-none']) ?></p>

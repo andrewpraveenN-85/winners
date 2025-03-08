@@ -24,15 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         $form->field($model, 'email')->textInput([
                             'autofocus' => true,
                             'placeholder' => 'Email',
-                            , 'class' => 'form-control bg-light text-dark'
+                            'class' => 'form-control bg-light text-dark'
                         ])->label(false)
                         ?>
                     </div>
                     <div class="form-group">
-                    <?= Html::submitButton('Send Reset Link', ['class' => 'btn btn-warning w-100']) ?>
+                        <?= Html::submitButton('Send Reset Link', ['class' => 'btn btn-warning w-100']) ?>
                     </div>
 
-<?php ActiveForm::end(); ?>
+                    <?php ActiveForm::end(); ?>
                 </div>
             </div>
         </div>

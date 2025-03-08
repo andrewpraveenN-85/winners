@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $form->field($model, 'password')->passwordInput([
                             'autofocus' => true,
                             'placeholder' => 'New Password',
-                            , 'class' => 'form-control bg-light text-dark'
+                            'class' => 'form-control bg-light text-dark'
                         ])->label(false)
                         ?>
                     </div>
