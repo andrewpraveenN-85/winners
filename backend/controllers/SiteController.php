@@ -131,7 +131,7 @@ class SiteController extends Controller {
         $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $model->status = 10;
+            $model->status = 9;
             $userId = $this->createUserAndSave($model);
             if ($userId) {
                 $this->assignRoleToUser($userId);
