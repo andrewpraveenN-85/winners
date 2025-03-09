@@ -36,6 +36,7 @@ class Merchants extends \yii\db\ActiveRecord {
     public $image;
     public $email;
     public $status;
+    public $password;
 
     public static function tableName() {
         return 'merchants';
@@ -49,7 +50,7 @@ class Merchants extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['first_name', 'bussiness_name', 'last_name', 'brn', 'email', 'status'], 'required'],
+            [['first_name', 'bussiness_name', 'last_name', 'brn', 'email', 'status', 'password'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
@@ -74,6 +75,7 @@ class Merchants extends \yii\db\ActiveRecord {
             'address' => 'Address',
             'notes' => 'Note',
             'img' => 'Logo',
+            'image' => 'Logo',
             'created_at' => 'Created',
             'updated_at' => 'Updated',
         ];
@@ -95,6 +97,7 @@ class Merchants extends \yii\db\ActiveRecord {
         $user = new User();
         $user->email = $this->email;
         $user->status = $this->status;
+        $user->password = $this->password;
         if ($user->save()) {
             return $user->id;
         }

@@ -138,6 +138,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="mb-3">
                         <?= $form->field($model, 'image')->fileInput(['id' => 'profile-image-input', 'placeholder' => 'Profile image', 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
+                    
+                    <?php if (!$model->isNewRecord) { ?>
+                        <div class="mb-3">
+                            <img class="img-fluid" src="<?= $model->imgURL; ?>" style="height:100px;">
+                        </div>
+                    <?php } ?>
 
                     <div class="mb-3">
                         <?= $form->field($model, 'address')->textInput(['placeholder' => 'Address', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>

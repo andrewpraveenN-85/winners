@@ -42,7 +42,6 @@ class Profiles extends \yii\db\ActiveRecord {
     public $image;
     public $email;
     public $status;
-    public $password;
 
     public static function tableName() {
         return 'profiles';
@@ -86,6 +85,7 @@ class Profiles extends \yii\db\ActiveRecord {
             'address' => 'Address',
             'notes' => 'Notes',
             'img' => 'Picture',
+            'image' => 'Picture',
             'created_at' => 'Created',
             'updated_at' => 'Updated',
         ];

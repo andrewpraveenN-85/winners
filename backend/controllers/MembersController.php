@@ -8,7 +8,7 @@ use backend\models\Profiles;
 use backend\models\ProfilesSearch;
 use yii\web\Controller;
 use yii2mod\rbac\filters\AccessControl;
-use backend\models\Register;
+use yii\web\UploadedFile;
 
 class MembersController extends Controller {
 
@@ -70,11 +70,21 @@ class MembersController extends Controller {
 
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        if ($this->request->isPost && $model->load($this->request->post()) && $this->updateUserAndSave($model) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Member has been updated successfully.');
-            return $this->redirect(['index']);
-        }else{
-            print_r($model->getErrors());
+        if ($this->request->isPost && $model->load($this->request->post()) && $this->updateUserAndSave($model)) {
+            if ($model->img && file_exists(Yii::getAlias('@webroot/uploads/profile' . $model->img))) {
+                unlink(Yii::getAlias('@webroot/uploads/profile/' . $model->img));
+            }
+            $imageName = $id . "_Image";
+            $image = UploadedFile::getInstance($model, 'image');
+            if (!empty($image)) {
+                $upload = Yii::$app->params['uploadPathIMG'] . 'profile/' . $imageName . '.' . $image->getExtension();
+                $image->saveAs($upload);
+                $model->img = $imageName . '.' . $image->getExtension();
+            }
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('success', 'Member has been updated successfully.');
+                return $this->redirect(['index']);
+            }
         }
     }
 

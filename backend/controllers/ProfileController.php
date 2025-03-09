@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii2mod\rbac\filters\AccessControl;
 use backend\models\Profiles;
+use backend\models\ChangePasswordForm;
 
 class ProfileController extends Controller {
 
@@ -27,7 +28,7 @@ class ProfileController extends Controller {
 
     public function actionIndex() {
         $userRole = key(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
-        $passwordmodel = $this->findModel(Yii::$app->user->id);
+        $passwordmodel = new ChangePasswordForm(Yii::$app->user->id);
         if ($userRole === 'Admin') {
             $model = $this->findModel(Yii::$app->user->id);
         } elseif ($userRole === 'Merchant') {
@@ -101,14 +102,12 @@ class ProfileController extends Controller {
     }
 
     public function actionPassword() {
-        $model = $this->findModel(Yii::$app->user->id);
-        if ($this->request->isPost && $model->load($this->request->post())) {
-            if ($model->validatePassword($model->password)) {
-                $model->setPassword($model->newpassword);
-                if ($model->save(false)) {
-                    Yii::$app->session->setFlash('success', 'Password updated successfully.');
-                    return $this->redirect(['index']);
-                }
+        $model = new ChangePasswordForm(Yii::$app->user->id);
+
+        if (Yii::$app->request->isPost && $model->load(Yii::$app->request->post())) {
+            if ($model->changePassword()) {
+                Yii::$app->session->setFlash('success', 'Password updated successfully.');
+                return $this->redirect(['index']);
             }
         }
     }

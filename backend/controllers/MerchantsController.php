@@ -8,6 +8,7 @@ use backend\models\Merchants;
 use backend\models\MerchantsSearch;
 use yii\web\Controller;
 use yii2mod\rbac\filters\AccessControl;
+use yii\web\UploadedFile;
 
 class MerchantsController extends Controller {
 
@@ -45,8 +46,17 @@ class MerchantsController extends Controller {
             $userId = $this->createUserAndSave($model);
             if ($userId) {
                 $this->assignRoleToUser($userId);
-                Yii::$app->session->setFlash('success', 'Merchant has been created successfully.');
-                return $this->redirect(['index']);
+                $imageName = $model->id . "_Image";
+                $image = UploadedFile::getInstance($model, 'image');
+                if (!empty($image)) {
+                    $upload = Yii::$app->params['uploadPathIMG'] . 'merchant/' . $imageName . '.' . $image->getExtension();
+                    $image->saveAs($upload);
+                    $model->img = $imageName . '.' . $image->getExtension();
+                }
+                if ($model->save(false)) {
+                    Yii::$app->session->setFlash('success', 'Merchant has been created successfully.');
+                    return $this->redirect(['index']);
+                }
             }
         }
     }
@@ -70,9 +80,21 @@ class MerchantsController extends Controller {
 
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        if ($this->request->isPost && $model->load($this->request->post()) && $this->updateUserAndSave($model) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Merchant has been updated successfully.');
-            return $this->redirect(['index']);
+        if ($this->request->isPost && $model->load($this->request->post()) && $this->updateUserAndSave($model)) {
+            if ($model->img && file_exists(Yii::getAlias('@webroot/uploads/merchant' . $model->img))) {
+                unlink(Yii::getAlias('@webroot/uploads/merchant/' . $model->img));
+            }
+            $imageName = $id . "_Image";
+            $image = UploadedFile::getInstance($model, 'image');
+            if (!empty($image)) {
+                $upload = Yii::$app->params['uploadPathIMG'] . 'merchant/' . $imageName . '.' . $image->getExtension();
+                $image->saveAs($upload);
+                $model->img = $imageName . '.' . $image->getExtension();
+            }
+            if ($model->save(false)) {
+                Yii::$app->session->setFlash('success', 'Merchant has been updated successfully.');
+                return $this->redirect(['index']);
+            }
         }
     }
 

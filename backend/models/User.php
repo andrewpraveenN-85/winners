@@ -31,7 +31,8 @@ class User extends ActiveRecord implements IdentityInterface {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-    
+    const SCENARIO_PASSWORD_CHANGE = 'passwordChange';
+
     public $password;
     public $newpassword;
 
@@ -45,6 +46,12 @@ class User extends ActiveRecord implements IdentityInterface {
         ];
     }
 
+    public function scenarios() {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_PASSWORD_CHANGE] = ['oldpassword', 'newpassword'];
+        return $scenarios;
+    }
+
     public function rules() {
         return [
             [['email', 'status'], 'required'],
@@ -53,6 +60,8 @@ class User extends ActiveRecord implements IdentityInterface {
             [['email'], 'email'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            
+            [['password', 'newpassword'], 'required', 'on' => self::SCENARIO_PASSWORD_CHANGE],
         ];
     }
 

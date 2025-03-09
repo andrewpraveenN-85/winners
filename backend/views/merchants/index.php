@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'Update',
                                 ['index', 'id' => $data->id],
                                 [
-                                    'class' => 'btn btn-primary',
+                                    'class' => 'btn btn-primary text-white',
                                     'data' => [
                                         'pjax' => 0, // Ensure a full page load instead of PJAX.
                                     ],
@@ -87,18 +87,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <?= $form->field($model, 'bussiness_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
+                        <?= $form->field($model, 'bussiness_name')->textInput(['placeholder' => 'Business name', 'maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                     </div>
                     <div class="mb-3">
-                        <?= $form->field($model, 'brn')->textInput(['maxlength' => 20, 'class' => 'form-control mb-2']) ?>
-                    </div>
-
-                    <div class="mb-3">
-                        <?= $form->field($model, 'first_name')->textInput(['placeholder' => 'First name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                        <?= $form->field($model, 'brn')->textInput(['placeholder' => 'Business regisrtation numner', 'maxlength' => 20, 'class' => 'form-control mb-2']) ?>
                     </div>
 
                     <div class="mb-3">
-                        <?= $form->field($model, 'last_name')->textInput(['placeholder' => 'Last name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                        <?= $form->field($model, 'first_name')->textInput(['placeholder' => 'Contact person first name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'last_name')->textInput(['placeholder' => 'Contact person last name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
 
                     <div class="mb-3">
@@ -113,6 +113,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'image')->fileInput(['id' => 'profile-image-input', 'placeholder' => 'Profile image', 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
 
+                    <?php if (!$model->isNewRecord) { ?>
+                        <div class="mb-3">
+                            <img class="img-fluid" src="<?= $model->imgURL; ?>" style="height:100px;">
+                        </div>
+                    <?php } ?>
+
                     <div class="mb-3">
                         <?= $form->field($model, 'address')->textInput(['placeholder' => 'Address', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
@@ -121,17 +127,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'notes')->textInput(['placeholder' => 'Additional notes', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
 
-                    <div class="mb-3">
-                        <?=
-                        $form->field($model, 'password', [
-                            'template' => '{label}<div class="input-group">{input}
+                    <?php if ($model->isNewRecord) { ?>
+                        <div class="mb-3">
+                            <?=
+                            $form->field($model, 'password', [
+                                'template' => '{label}<div class="input-group">{input}
                             <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
                             <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>
-                            {error}</div>',
-                        ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
-                        ?>
-                    </div>
-
+                            </div>{error}',
+                            ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
+                            ?>
+                        </div>
+                    <?php } ?>
                     <div class=" mb-3">
                         <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>
