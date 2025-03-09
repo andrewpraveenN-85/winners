@@ -37,6 +37,7 @@ class Memberships extends \yii\db\ActiveRecord {
         return [
             [['profile_id', 'package_id', 'status'], 'required'],
             [['profile_id', 'package_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['profile_id'], 'unique', 'targetAttribute' => ['profile_id']],
             [['profile_id', 'package_id'], 'unique', 'targetAttribute' => ['profile_id', 'package_id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profiles::class, 'targetAttribute' => ['profile_id' => 'id']],
             [['package_id'], 'exist', 'skipOnError' => true, 'targetClass' => Packages::class, 'targetAttribute' => ['package_id' => 'id']],

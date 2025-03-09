@@ -60,6 +60,9 @@ class MembershipsController extends Controller {
             $this->updateUserStatus($model->profile_id, $model->status);
             Yii::$app->session->setFlash('success', 'Membership has been created successfully.');
             return $this->redirect(['index']);
+        }else{
+            Yii::$app->session->setFlash('danger', 'Membership already available.');
+            return $this->redirect(['index']);
         }
     }
 
@@ -69,6 +72,9 @@ class MembershipsController extends Controller {
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             $this->updateUserStatus($profile_id, $model->status);
             Yii::$app->session->setFlash('success', 'Membership has been updated successfully.');
+            return $this->redirect(['index']);
+        }else{
+            Yii::$app->session->setFlash('danger', 'Membership already available.');
             return $this->redirect(['index']);
         }
     }
