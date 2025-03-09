@@ -34,7 +34,7 @@ $this->title = "Login";
         <!-- Right Side - Illustration -->
         <div class="col-md-6 login-right d-flex flex-column align-items-center justify-content-center">
             <img src="/media/logo.png" width="300px" alt="Logo"/>
-            <p class="mt-3 text-center"><?= Html::a('Join as a member!', ['site/register'], ['class' => 'text-brown text-decoration-none']) ?></p>
+            <p class="mt-3 text-center"><?= Html::a('Join as a member!', ['site/register'], ['class' => 'btn btn-warning text-decoration-none']) ?></p>
         </div>
     </div>
 </div>
