@@ -56,7 +56,7 @@ class MembershipsController extends Controller {
     public function actionCreate() {
         $model = new Memberships();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->validate() && $model->save()) {
             $this->updateUserStatus($model->profile_id, $model->status);
             Yii::$app->session->setFlash('success', 'Membership has been created successfully.');
             return $this->redirect(['index']);

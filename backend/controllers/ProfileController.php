@@ -29,14 +29,15 @@ class ProfileController extends Controller {
     public function actionIndex() {
         $userRole = key(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
         $passwordmodel = new ChangePasswordForm(Yii::$app->user->id);
+        $user = $this->findModel(Yii::$app->user->id);
         if ($userRole === 'Admin') {
             $model = $this->findModel(Yii::$app->user->id);
         } elseif ($userRole === 'Merchant') {
             
         } elseif ($userRole === 'Profile') {
             $model = Profiles::find()->where(['user_id' => Yii::$app->user->id])->one();
-            $model->email = $passwordmodel->email;
-            $model->status = $passwordmodel->status;
+            $model->email = $user->email;
+            $model->status = $user->status;
         } else {
             
         }
