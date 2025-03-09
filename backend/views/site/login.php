@@ -28,7 +28,7 @@ $this->title = "Login";
             </div>
             <?= Html::submitButton('Log in', ['class' => 'btn btn-warning w-100', 'name' => 'login-button']) ?>
             <p class="mt-3 text-center"><?= Html::a('Forgot Password?', ['site/request-password-reset'], ['class' => 'text-warning text-decoration-none']) ?></p>
-            <p class="mt-3 text-center">Not a member? <?= Html::a('Join as a member!', ['site/register'], ['class' => 'text-warning text-decoration-none']) ?></p>
+            <p class="mt-3 text-center"><?= Html::a('Join as a member!', ['site/register'], ['class' => 'text-warning text-decoration-none']) ?></p>
             <?php ActiveForm::end(); ?>
         </div>
 
