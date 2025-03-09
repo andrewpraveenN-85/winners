@@ -29,12 +29,12 @@ class MyMembershipsController extends Controller {
 
     public function actionIndex() {
         $profile = Profiles::find()->where(['user_id' => Yii::$app->user->id])->one();
-        $user = User::findOne(['id' => Yii::$app->user->id]);
         $membership = Memberships::find()->where(['profile_id' => $profile->id])->orderBy(['created_at' => SORT_DESC])->one();
         $package = Packages::find()->where(['id' => $membership->package_id])->one();
         $searchModel = new OffersSearch(['package_id' => $membership->package_id]);
         $dataProvider = $searchModel->search($this->request->queryParams);
         return $this->render('index', [
+                    'profile' => $profile,
                     'membership' => $membership,
                     'package' => $package,
                     'searchModel' => $searchModel,
