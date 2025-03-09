@@ -18,7 +18,6 @@ class ActivitySearch extends Activity
     {
         return [
             [['profile_id', 'event_id'], 'integer'],
-            [['check_in', 'check_out', 'notes'], 'safe'],
         ];
     }
 
@@ -60,11 +59,7 @@ class ActivitySearch extends Activity
         $query->andFilterWhere([
             'profile_id' => $this->profile_id,
             'event_id' => $this->event_id,
-            'check_in' => $this->check_in,
-            'check_out' => $this->check_out,
         ]);
-
-        $query->andFilterWhere(['like', 'notes', $this->notes]);
 
         return $dataProvider;
     }

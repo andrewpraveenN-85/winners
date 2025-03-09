@@ -31,19 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'enableSorting' => false, // Disable sorting
                     ],
-                    [
-                        'attribute' => 'check_in',
-                        'enableSorting' => false, // Disable sorting
-                    ],
-                    [
-                        'attribute' => 'check_out',
-                        'enableSorting' => false, // Disable sorting
-                    ],
-                    [
-                        'attribute' => 'notes',
-                        'format' => 'ntext',
-                        'enableSorting' => false, // Disable sorting
-                    ],
                 ],
             ]);
             ?>
