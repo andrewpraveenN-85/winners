@@ -3,6 +3,7 @@
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Html;
+
 /** @var yii\web\View $this */
 /** @var backend\models\MembershipsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -37,7 +38,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'model' => $membership,
                 'attributes' => [
                     'statusText',
-                    'created_at:datetime',
+                    [
+                        'label' => 'Registered',
+                        'value' => function ($data) {
+                                return date("Y-m-d", $data->created_at);
+                        }
+                    ],
+                    [
+                        'label' => 'Ecpire',
+                        'value' => function ($data) {
+                            if ($data->package->duration == 'monthly') {
+                                return date("Y-m-d", strtotime("+1 month", $data->created_at));
+                            }
+                            if ($data->package->duration == 'yearly') {
+                                return date("Y-m-d", strtotime("+1 year", $data->created_at));
+                            }
+                        }
+                    ]
                 ],
             ])
             ?>

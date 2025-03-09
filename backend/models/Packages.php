@@ -31,8 +31,6 @@ class Packages extends \yii\db\ActiveRecord {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
     
-    public $merchants;
-
     public static function tableName() {
         return 'packages';
     }
@@ -45,7 +43,7 @@ class Packages extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'status', 'merchants'], 'required'],
+            [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'status'], 'required'],
             [['description', 'duration'], 'string'],
             [['entry_point', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
