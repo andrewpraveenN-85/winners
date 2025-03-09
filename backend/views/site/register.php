@@ -45,11 +45,11 @@ $this->title = "Register";
                     'min' => date('Y-m-d', strtotime('-100 years')),
                     'max' => date('Y-m-d', strtotime('-18 years')),
                     'class' => 'form-control bg-light text-dark',
-                    'placeholder' => 'Date of Birth',
+                    'id' => 'dob-field'
                 ])
                 ?>
             </div>
-            <div class="mb-3">
+            <div class = "mb-3">
                 <?=
                 $form->field($model, 'gender')->dropDownList([
                     'Male' => 'Male',
@@ -64,7 +64,7 @@ $this->title = "Register";
             </div>
 
             <div class="mb-3">
-                <?= $form->field($model, 'image')->fileInput(['placeholder' => 'Profile image', 'class' => 'form-control bg-light text-dark']) ?>
+                <?= $form->field($model, 'image')->fileInput(['id' => 'profile-image-input', 'placeholder' => 'Profile image', 'class' => 'form-control bg-light text-dark']) ?>
             </div>
 
             <div class="mb-3">
@@ -141,6 +141,29 @@ $this->registerJs("
                 }
             });
        });
+       let dobField = document.getElementById(\"dob-field\");
+        if (dobField) {
+            dobField.setAttribute(\"placeholder\", \"Date of birth\");
+            dobField.addEventListener(\"focus\", function() {
+                this.removeAttribute(\"placeholder\");
+            });
+            dobField.addEventListener(\"blur\", function() {
+                if (!this.value) {
+                    this.setAttribute(\"placeholder\", \"Date of birth\");
+                }
+            });
+        }
+        let fileInput = document.getElementById(\"profile-image-input\");
+        fileInput.addEventListener(\"change\", function () {
+            if (fileInput.files.length > 0) {
+                fileInput.setAttribute(\"title\", fileInput.files[0].name);
+            } else {
+                fileInput.setAttribute(\"title\", \"Profile image\");
+            }
+        });
+
+        // Initial placeholder effect
+        fileInput.setAttribute(\"title\", \"Profile image\");
     });
 ", \yii\web\View::POS_END);
 ?>
