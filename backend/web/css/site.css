@@ -92,16 +92,6 @@ body {
     color: #999;
 }
 
-/* Buttons: primary button with gradient background */
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-    border: none;
-}
-.btn-primary:hover,
-.btn-primary:focus {
-    background: linear-gradient(135deg, var(--primary-end), var(--primary-start));
-}
-
 /* Sidebar header/title */
 #sidebar h4 {
     color: var(--primary-start);

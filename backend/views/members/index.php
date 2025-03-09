@@ -13,12 +13,12 @@ $this->title = 'Members';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-<!--
-    <p>
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
-            Create
-        </button>
-    </p>-->
+    <!--
+        <p>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
+                Create
+            </button>
+        </p>-->
 
     <?=
     GridView::widget([
@@ -87,29 +87,87 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <?= $form->field($model, 'first_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                        </div>
-                        <div class="col-6">
-                            <?= $form->field($model, 'middle_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                        </div>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'first_name')->textInput(['placeholder' => 'First name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <?= $form->field($model, 'last_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                        </div>
-                        <div class="col-6">
-                            <?= $form->field($model, 'sin')->textInput(['maxlength' => 20, 'class' => 'form-control mb-2']) ?>
-                        </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'middle_name')->textInput(['placeholder' => 'Middle name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <?= $form->field($model, 'email')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                        </div>
-                        <div class="col-6">
-                            <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
-                        </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'last_name')->textInput(['placeholder' => 'Last name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'sin')->textInput(['placeholder' => 'NIC/Driving licence/Passport No', 'maxlength' => 25, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'email')->textInput(['placeholder' => 'Email', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'mobile')->textInput(['placeholder' => 'Contact mobile', 'maxlength' => 15, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?=
+                        $form->field($model, 'dob')->input('date', [
+                            'min' => date('Y-m-d', strtotime('-100 years')),
+                            'max' => date('Y-m-d', strtotime('-18 years')),
+                            'class' => 'form-control bg-light text-dark',
+                            'id' => 'dob-field'
+                        ])
+                        ?>
+                    </div>
+                    <div class = "mb-3">
+                        <?=
+                        $form->field($model, 'gender')->dropDownList([
+                            'Male' => 'Male',
+                            'Female' => 'Female',
+                            'Other' => 'Other'
+                                ], [
+                            'prompt' => 'Select Gender',
+                            'class' => 'form-control bg-light text-dark'
+                        ])
+                        ?>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'image')->fileInput(['id' => 'profile-image-input', 'placeholder' => 'Profile image', 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'address')->textInput(['placeholder' => 'Address', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?= $form->field($model, 'notes')->textInput(['placeholder' => 'Additional notes', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <?=
+                        $form->field($model, 'password', [
+                            'template' => '{label}<div class="input-group">{input}
+                            <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
+                            <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>
+                            {error}</div>',
+                        ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
+                        ?>
+                    </div>
+                    <div class="mb-3">
+                        <?=
+                        $form->field($model, 'dor')->input('date', [
+                            'min' => date('Y-m-d', strtotime('-100 years')),
+                            'max' => date('Y-m-d'),
+                            'class' => 'form-control bg-light text-dark'
+                        ])
+                        ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>
                 </div>
                 <div class="modal-footer">

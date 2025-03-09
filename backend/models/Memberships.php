@@ -50,7 +50,8 @@ class Memberships extends \yii\db\ActiveRecord {
             'profile_id' => 'Profile',
             'package_id' => 'Package',
             'status' => 'Status',
-            'created_at' => 'Created',
+            'statusText' => 'Status',
+            'created_at' => 'Registered',
             'updated_at' => 'Updated',
         ];
     }

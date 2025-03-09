@@ -8,7 +8,7 @@ $this->title = 'Dashboard';
     <div class="body-content m-3">
         <div class="row">
             <div class="col-sm-3">
-                <div class="card text-dark bg-light ">
+                <div class="card text-dark border-warning">
                     <div class="card-header"><strong>My Package</strong></div>
                     <div class="card-body">
                         <p class="card-text text-end"><?= $package->name; ?></p>
@@ -16,15 +16,15 @@ $this->title = 'Dashboard';
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="card text-dark bg-light ">
-                    <div class="card-header"><strong>Remaining Entry Points</strong></div>
+                <div class="card text-dark border-warning">
+                    <div class="card-header"><strong>Remaining Entries</strong></div>
                     <div class="card-body">
                         <p class="card-text text-end"><?= $package->entry_point; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="card text-dark bg-light ">
+                <div class="card text-dark border-warning">
                     <div class="card-header"><strong>Merchants Discounts</strong></div>
                     <div class="card-body">
                         <p class="card-text text-end"><?= $package->merchants_discount; ?></p>
@@ -32,7 +32,7 @@ $this->title = 'Dashboard';
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="card text-dark bg-light ">
+                <div class="card text-dark border-warning">
                     <div class="card-header"><strong>Smart Saving Events</strong></div>
                     <div class="card-body">
                         <p class="card-text text-end"><?= $package->smart_saving_events ? 'Active' : 'Inactive'; ?></p>
@@ -65,11 +65,6 @@ $this->title = 'Dashboard';
                         [
                             'attribute' => 'gift.name',
                             'label' => 'Gift Name',
-                        ],
-                        [
-                            'attribute' => 'created_at',
-                            'label' => 'Created At',
-                            'format' => ['date', 'php:Y-m-d H:i:s'], // Format timestamp to readable date
                         ],
                     ],
                 ]);

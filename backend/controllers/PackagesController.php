@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers\business;
+namespace backend\controllers;
 
 use Yii;
 use backend\models\Packages;

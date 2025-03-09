@@ -92,34 +92,6 @@ class Register extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getActivities() {
-        return $this->hasMany(Activity::class, ['profile_id' => 'id']);
-    }
-
-    public function getEvents() {
-        return $this->hasMany(Events::class, ['id' => 'event_id'])->viaTable('activity', ['profile_id' => 'id']);
-    }
-
-    public function getGifts() {
-        return $this->hasMany(Gifts::class, ['id' => 'gift_id'])->viaTable('winners', ['profile_id' => 'id']);
-    }
-
-    public function getMemberships() {
-        return $this->hasMany(Memberships::class, ['profile_id' => 'id']);
-    }
-
-    public function getPackages() {
-        return $this->hasMany(Packages::class, ['id' => 'package_id'])->viaTable('memberships', ['profile_id' => 'id']);
-    }
-
-    public function getUser() {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
-    }
-
-    public function getWinners() {
-        return $this->hasMany(Winners::class, ['profile_id' => 'id']);
-    }
-
     public function createUser() {
         $user = new User();
         $user->email = $this->email;
@@ -129,13 +101,5 @@ class Register extends \yii\db\ActiveRecord {
             return $user->id;
         }
         return false;
-    }
-
-    public function getImgURL() {
-        if ($this->img != null) {
-            return Yii::$app->params['back_host'] . 'profile/' . $this->img;
-        } else {
-            return Yii::$app->params['back_host'] . 'default.jpg';
-        }
     }
 }

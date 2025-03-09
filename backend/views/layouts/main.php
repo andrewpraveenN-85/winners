@@ -24,20 +24,21 @@ AppAsset::register($this);
         <?php $this->head() ?>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
+            body {
+                background-color: #d5d5d5; /* Brown theme */
+                font-size: 20px; /* Set font size */
+            }
             /* Ensure the sidebar takes full height */
             #sidebar {
                 min-height: 100vh;
                 width: 250px; /* Default width */
                 transition: width 0.3s ease, margin-left 0.3s ease; /* Smooth transition for width */
-                background-color: #FFA500 !important; /* Match yellow-orange login box */
-                color: #5C3B2E !important;
             }
 
             /* Adjust main content */
             #main-content {
                 transition: margin-left 0.3s ease; /* Smooth transition for content shift */
-                color: white; /* Ensure contrast */
-                background-color: #5C3B2E !important; /* Match brown background */
+                /* Match brown background */
             }
 
             /* When sidebar is collapsed */
@@ -59,7 +60,7 @@ AppAsset::register($this);
 
             .nav-link i {
                 margin-right: 8px; /* Adjust spacing as needed */
-                width: 16px !important;
+                width: 20px !important;
             }
 
             /* Align the dropdown arrow to the right */
@@ -135,6 +136,11 @@ AppAsset::register($this);
                 color: white !important;
             }
 
+            .nav-item .nav-link.active {
+                background-color: #D98A00 !important; /* Highlight color */
+                color: white !important;
+                font-weight: bold;
+            }
         </style>
     </head>
     <!--<body class="d-flex flex-column h-100">-->
@@ -142,7 +148,7 @@ AppAsset::register($this);
         <?php $this->beginBody() ?>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
-            <nav id="sidebar" class="bg-warning border-end collapse show">
+            <nav id="sidebar" class="border-end collapse show">
                 <div class="p-3">
                     <?php if ($userRole === 'Merchant') { ?>
 
@@ -164,7 +170,7 @@ AppAsset::register($this);
                     <ul class="nav flex-column">
                         <?php if (Yii::$app->user->can('dashboard')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" href="/">
+                                <a class="nav-link text-brown <?= isActive('site', 'index') ?>" href="/">
                                     <i class="fa fa-dashboard fa-fw fa-sm" role="button" ></i>Dashboard
                                 </a>
                             </li>
@@ -172,108 +178,81 @@ AppAsset::register($this);
 
                         <?php if (Yii::$app->user->can('memeberManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" aria-current="page" href="/members">
+                                <a class="nav-link text-brown  <?= isActive('members', 'index') ?>" aria-current="page" href="/members">
                                     <i class="fa fa-user-secret fa-fw fa-sm"></i>Members
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('membershipManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" aria-current="page" href="/memberships">
+                                <a class="nav-link text-brown <?= isActive('memberships', 'index') ?>" href="/memberships">
                                     <i class="fa fa-chain fa-fw fa-sm"></i>Memberships
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myMembership')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" aria-current="page" href="/my-memberships">
-                                    <i class="fa fa-chain fa-fw fa-sm"></i>My Memberships
+                                <a class="nav-link text-brown <?= isActive('my-memberships', 'index') ?>" href="/my-memberships">
+                                    <i class="fa fa-chain fa-fw fa-sm"></i>Memberships
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('drawsManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" href="/draws">
+                                <a class="nav-link text-brown <?= isActive('draws', 'index') ?>" href="/draws">
                                     <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myDraws')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" href="/my-draws">
-                                    <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>My Draws
+                                <a class="nav-link text-brown <?= isActive('my-draws', 'index') ?>" href="/my-draws">
+                                    <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('eventManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" href="/events">
+                                <a class="nav-link text-brown <?= isActive('events', 'index') ?>" href="/events">
                                     <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myEvents')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" href="/my-events">
-                                    <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>My Events
+                                <a class="nav-link text-brown <?= isActive('my-events', 'index') ?>" href="/my-events">
+                                    <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <?php if (Yii::$app->user->can('myMembershipCard')): ?>
+                        <?php if (Yii::$app->user->can('merchantsManagement')): ?>
+                            <li class="nav-item text-brown">
+                                <a class="nav-link text-brown <?= isActive('merchants', 'index') ?>" aria-current="page" href="/merchants">
+                                    <i class="fa fa-building fa-fw fa-sm"></i>Merchants
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (Yii::$app->user->can('packageManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" href="/my-membership/card">
-                                    <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Membership Card
+                                <a class="nav-link text-brown <?= isActive('packages', 'index') ?>" href="/packages">
+                                    <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Packages
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <?php if (Yii::$app->user->can('merchantsManagement') || Yii::$app->user->can('packageManagement')): ?>
+                        <?php if (Yii::$app->user->can('profileManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown" data-bs-toggle="collapse" href="#submenu3" role="button" aria-expanded="false" aria-controls="submenu4">
-                                    <i class="fa fa-building fa-fw fa-sm"></i>Business<i class="fa fa-angle-down dropdown-arrow"></i>
+                                <a class="nav-link text-brown <?= isActive('settings/profile', 'index') ?>" href="/profile">
+                                    <i class="fa fa-user fa-fw fa-sm"></i>Profile
                                 </a>
-                                <div class="collapse" id="submenu3">
-                                    <ul class="nav flex-column ms-3">
-                                        <?php if (Yii::$app->user->can('merchantsManagement')): ?>
-                                            <li class="nav-item text-brown">
-                                                <a class="nav-link" aria-current="page" href="/business/merchants">
-                                                    <i class="fa fa-building fa-fw fa-sm"></i>Merchants
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-                                        <?php if (Yii::$app->user->can('packageManagement')): ?>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-brown" href="/business/packages">
-                                                    <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Packages
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-                                    </ul>
-                                </div>
                             </li>
                         <?php endif; ?>
-                        <li class="nav-item">
-                            <a class="nav-link text-brown" data-bs-toggle="collapse" href="#submenu4" role="button" aria-expanded="false" aria-controls="submenu6">
-                                <i class="fa fa-cogs fa-fw fa-sm"></i>Settings<i class="fa fa-angle-down dropdown-arrow"></i>
-                            </a>
-                            <div class="collapse" id="submenu4">
-                                <ul class="nav flex-column ms-3">
-                                    <?php if (Yii::$app->user->can('profileManagement')): ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-brown" href="/settings/profile">
-                                                <i class="fa fa-user fa-fw fa-sm"></i>Profile
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                    <?php if (Yii::$app->user->can('adminManagement')): ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-brown" aria-current="page" href="/settings/admins">
-                                                <i class="fa fa-user-secret fa-fw fa-sm"></i>Admins
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                </ul>
-                            </div>
-                        </li>
+                        <?php if (Yii::$app->user->can('adminManagement')): ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-brown <?= isActive('admins', 'index') ?>" aria-current="page" href="/admins">
+                                    <i class="fa fa-user-secret fa-fw fa-sm"></i>Admins
+                                </a>
+                            </li>
+                        <?php endif; ?>     
                         <li class="nav-item">
                             <?=
                             Html::a('<i class="fa fa-lock fa-fw fa-sm"></i>Logout', ['/site/logout'], [
@@ -327,3 +306,12 @@ AppAsset::register($this);
 </html>
 <?php
 $this->endPage();
+
+function isActive($controller, $action = null) {
+    $currentController = Yii::$app->controller->id;
+    $currentAction = Yii::$app->controller->action->id;
+    if ($action === null) {
+        return $currentController === $controller ? 'active' : '';
+    }
+    return ($currentController === $controller && $currentAction === $action) ? 'active' : '';
+}

@@ -61,8 +61,10 @@ class Packages extends \yii\db\ActiveRecord {
             'duration' => 'Duration',
             'entry_point' => 'Entry Point',
             'smart_saving_events' => 'Smart Saving Events',
-            'merchants_discount' => 'Merchants Discount',
+            'eventText' => 'Smart Saving Events',
+            'merchants_discount' => 'Merchants Discount %',
             'status' => 'Status',
+            'statusText' => 'Status',
             'created_at' => 'Created',
             'updated_at' => 'Updated',
         ];
@@ -97,6 +99,15 @@ class Packages extends \yii\db\ActiveRecord {
         }
         if ($this->status == self::STATUS_DELETED) {
             return 'DELETED';
+        }
+    }
+    
+    public function getEventText() {
+        if ($this->smart_saving_events == 1) {
+            return 'ACTIVE';
+        }
+        if ($this->smart_saving_events == 0) {
+            return 'INACTIVE';
         }
     }
 }

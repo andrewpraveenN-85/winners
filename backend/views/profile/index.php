@@ -117,6 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'mobile',
                         'address',
                         'dob',
+                        'gender',
                         'dor',
                         'notes',
                         'created_at:datetime',
@@ -168,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if ($userRole === 'Admin') { ?>
             <div class="modal-dialog modal-dialog-centered">
             <?php } else { ?>
-                <div class="modal-dialog modal-dialog-centered modal-xl ">
+                <div class="modal-dialog modal-dialog-centered modal-lg ">
                 <?php } ?>
                 <div class="modal-content">
                     <?php $formProfile = ActiveForm::begin(['action' => ['update']]); ?>
@@ -184,41 +185,60 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php } elseif ($userRole === 'Merchant') { ?>
 
                         <?php } elseif ($userRole === 'Profile') { ?>
-                            <div class="row mb-3">
-                                <div class="col-4">
-                                    <?= $formProfile->field($model, 'first_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-4">
-                                    <?= $formProfile->field($model, 'middle_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-4">
-                                    <?= $formProfile->field($model, 'last_name')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                                </div>
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'first_name')->textInput(['placeholder' => 'First name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-3">
-                                    <?= $formProfile->field($model, 'sin')->textInput(['maxlength' => 20, 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-3">
-                                    <?= $formProfile->field($model, 'email')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-3">
-                                    <?= $formProfile->field($model, 'mobile')->textInput(['maxlength' => 15, 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-3">
-                                    <?= $formProfile->field($model, 'dob')->input('date', ['class' => 'form-control mb-2']) ?>
-                                </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'middle_name')->textInput(['placeholder' => 'Middle name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-2">
-                                    <?= $formProfile->field($model, 'dor')->input('date', ['class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-5">
-                                    <?= $formProfile->field($model, 'address')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                                </div>
-                                <div class="col-5">
-                                    <?= $formProfile->field($model, 'notes')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
-                                </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'last_name')->textInput(['placeholder' => 'Last name', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                            </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'sin')->textInput(['placeholder' => 'NIC/Driving licence/Passport No', 'maxlength' => 25, 'class' => 'form-control bg-light text-dark']) ?>
+                            </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'email')->textInput(['placeholder' => 'Email', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                            </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'mobile')->textInput(['placeholder' => 'Contact mobile', 'maxlength' => 15, 'class' => 'form-control bg-light text-dark']) ?>
+                            </div>
+
+                            <div class="mb-3">
+                                <?=
+                                $formProfile->field($model, 'dob')->input('date', [
+                                    'min' => date('Y-m-d', strtotime('-100 years')),
+                                    'max' => date('Y-m-d', strtotime('-18 years')),
+                                    'class' => 'form-control bg-light text-dark',
+                                    'id' => 'dob-field'
+                                ])
+                                ?>
+                            </div>
+                            <div class = "mb-3">
+                                <?=
+                                $formProfile->field($model, 'gender')->dropDownList([
+                                    'Male' => 'Male',
+                                    'Female' => 'Female',
+                                    'Other' => 'Other'
+                                        ], [
+                                    'prompt' => 'Select Gender',
+                                    'class' => 'form-control bg-light text-dark'
+                                ])
+                                ?>
+
+                            </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'address')->textInput(['placeholder' => 'Address', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
+                            </div>
+
+                            <div class="mb-3">
+                                <?= $formProfile->field($model, 'notes')->textInput(['placeholder' => 'Additional notes', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                             </div>
                             <?php
                         } else {

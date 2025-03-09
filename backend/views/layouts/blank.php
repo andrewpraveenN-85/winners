@@ -24,7 +24,7 @@ $this->beginPage();
         <style>
             body {
                 background-color: #d5d5d5; /* Brown theme */
-                font-size: 16px; /* Set font size */
+                font-size: 20px; /* Set font size */
             }
             .login-container {
                 max-width: 900px;

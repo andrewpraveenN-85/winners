@@ -55,7 +55,7 @@ class Profiles extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['first_name', 'last_name', 'sin', 'email', 'status', 'gender'], 'required'],
+            [['user_id', 'first_name', 'last_name', 'sin', 'email', 'dob', 'address', 'mobile', 'gender', 'password'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'dob', 'dor', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
@@ -78,7 +78,7 @@ class Profiles extends \yii\db\ActiveRecord {
             'first_name' => 'First Name',
             'middle_name' => 'Middle Name',
             'last_name' => 'Last Name',
-            'sin' => 'Security Idenfication No',
+            'sin' => 'NIC/Driving licence/Passport No',
             'mobile' => 'Mobile',
             'dob' => 'Date of Birth',
             'dor' => 'Date of Register',
@@ -118,16 +118,6 @@ class Profiles extends \yii\db\ActiveRecord {
         return $this->hasMany(Winners::class, ['profile_id' => 'id']);
     }
     
-    public function createUser() {
-        $user = new User();
-        $user->email = $this->email;
-        $user->status = $this->status;
-        if ($user->save()) {
-            return $user->id;
-        }
-        return false;
-    }
-
     public function getImgURL() {
         if ($this->img != null) {
             return Yii::$app->params['back_host'] . 'profile/' . $this->img;

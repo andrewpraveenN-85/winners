@@ -8,6 +8,7 @@ use backend\models\Profiles;
 use backend\models\ProfilesSearch;
 use yii\web\Controller;
 use yii2mod\rbac\filters\AccessControl;
+use backend\models\Register;
 
 class MembersController extends Controller {
 
