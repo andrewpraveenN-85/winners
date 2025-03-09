@@ -17,6 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $sin
  * @property string|null $mobile
  * @property string|null $dob
+ * @property string|null $gender
  * @property string|null $dor
  * @property string|null $address
  * @property string|null $notes
@@ -42,7 +43,6 @@ class Register extends \yii\db\ActiveRecord {
     public $email;
     public $password;
     public $status;
-    public $package;
     public $accept_age;
     public $accept_terms;
 
@@ -58,12 +58,12 @@ class Register extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['first_name', 'last_name', 'sin', 'email', 'image', 'dob', 'address', 'dor', 'package', 'mobile'], 'required'],
-            [['user_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'first_name', 'last_name', 'sin', 'email', 'dob', 'address', 'mobile', 'gender'], 'required'],
+            [[ 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'dob', 'dor', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
             [['first_name', 'middle_name', 'last_name', 'address', 'img'], 'string', 'max' => 255],
-            [['sin', 'mobile'], 'string', 'max' => 15],
+            [['sin', 'mobile', 'gender'], 'string', 'max' => 15],
             [['dor'], 'string', 'max' => 15],
             [['sin'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -85,9 +85,10 @@ class Register extends \yii\db\ActiveRecord {
             'first_name' => 'First Name',
             'middle_name' => 'Middle Name',
             'last_name' => 'Last Name',
-            'sin' => 'Security Idenfication No',
+            'sin' => 'NIC/Driving Licence/Passport No',
             'mobile' => 'Mobile',
             'dob' => 'Date of Birth',
+            'gender' => 'Gender',
             'dor' => 'Date or Register',
             'address' => 'Address',
             'notes' => 'Notes',

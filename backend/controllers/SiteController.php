@@ -142,7 +142,7 @@ class SiteController extends Controller {
                     $model->img = $imageName . '.' . $image->getExtension();
                 }
                 $this->assignRoleToUser($userId);
-                $this->createMembership($model->id, $model->package);
+                //$this->createMembership($model->id, $model->package);
                 $model->save(false);
                 Yii::$app->session->setFlash('success', 'Member has been created successfully.');
                 return $this->goBack();

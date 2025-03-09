@@ -17,6 +17,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $sin
  * @property string|null $mobile
  * @property string|null $dob
+ * @property string|null $gender
  * @property string|null $dor
  * @property string|null $address
  * @property string|null $notes
@@ -54,12 +55,12 @@ class Profiles extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['first_name', 'last_name', 'sin', 'email', 'status'], 'required'],
+            [['first_name', 'last_name', 'sin', 'email', 'status', 'gender'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'dob', 'dor', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
             [['first_name', 'middle_name', 'last_name', 'address', 'img'], 'string', 'max' => 255],
-            [['sin', 'mobile'], 'string', 'max' => 15],
+            [['sin', 'mobile', 'gender'], 'string', 'max' => 15],
             [['dor'], 'string', 'max' => 15],
             [['sin'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
