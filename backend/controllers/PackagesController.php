@@ -30,23 +30,9 @@ class PackagesController extends Controller {
         $searchModel = new PackagesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
-        $merchantSearchModel = new MerchantsSearch();
-        $merchantDataProvider = $merchantSearchModel->packageSearch($this->request->queryParams);
-
-        $offersString = '';
-        if ($id) {
-            $offers = Offers::find()->where(['package_id' => $id])->all();
-            $offersArray = array_map(function ($offer) {
-                return $offer->merchant_id . '-' . $offer->discount;
-            }, $offers);
-            $offersString = implode(', ', $offersArray);
-        }
-        $model->merchants = $offersString;
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'merchantSearchModel' => $merchantSearchModel,
-                    'merchantDataProvider' => $merchantDataProvider,
                     'model' => $model
         ]);
     }
