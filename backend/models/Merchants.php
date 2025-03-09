@@ -16,8 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $last_name
  * @property string $brn
  * @property string|null $mobile
- * @property string|null $dor
- * @property string|null $type
+
  * @property string|null $address
  * @property string|null $notes
  * @property string|null $img
@@ -52,9 +51,9 @@ class Merchants extends \yii\db\ActiveRecord {
         return [
             [['first_name', 'bussiness_name', 'last_name', 'brn', 'email', 'status'], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['user_id', 'dor', 'type', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
+            [['user_id', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],
-            [['first_name', 'bussiness_name', 'last_name', 'type', 'address', 'img'], 'string', 'max' => 255],
+            [['first_name', 'bussiness_name', 'last_name', 'address', 'img'], 'string', 'max' => 255],
             [['brn', 'mobile'], 'string', 'max' => 15],
             [['brn'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -72,8 +71,6 @@ class Merchants extends \yii\db\ActiveRecord {
             'last_name' => 'Last Name',
             'brn' => 'Business Reg No',
             'mobile' => 'Mobile',
-            'dor' => 'Date of Reg',
-            'type' => 'Type',
             'address' => 'Address',
             'notes' => 'Note',
             'img' => 'Logo',
