@@ -14,7 +14,6 @@ if ($userRole === 'Admin') {
 } else {
     $this->title = "Not loaded!";
 }
-$this->params['breadcrumbs'][] = 'Settings';
 $this->params['breadcrumbs'][] = 'Profile';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

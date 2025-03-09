@@ -61,6 +61,7 @@ class MembershipsController extends Controller {
         $model = new Memberships();
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $this->updateUserStatus($model->profile_id, $model->status);
             Yii::$app->session->setFlash('success', 'Membership has been created successfully.');
             return $this->redirect(['index']);
         }
@@ -70,9 +71,17 @@ class MembershipsController extends Controller {
         $model = $this->findModel($profile_id, $package_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $this->updateUserStatus($profile_id, $model->status);
             Yii::$app->session->setFlash('success', 'Membership has been updated successfully.');
             return $this->redirect(['index']);
         }
+    }
+
+    private function updateUserStatus($profile_id, $status) {
+        $profile = Profiles::find()->where(['id' => $profile_id])->one();
+        $user = User::findOne(['id' => $profile->user_id]);
+        $user->status = $status;
+        $user->save(false);
     }
 
     protected function findModel($profile_id, $package_id) {

@@ -165,7 +165,12 @@ AppAsset::register($this);
                         </div>
                     <?php } ?>
                     <?php if ($userRole === 'Admin') { ?>
-
+                        <div class="text-center">
+                            <img src="/media/icon.png" class="img-circle" alt="Profile Image" width="75">
+                            <h5 class="mt-2">
+                                Smart Saving
+                            </h5>
+                        </div>
                     <?php } ?>
                     <ul class="nav flex-column">
                         <?php if (Yii::$app->user->can('dashboard')): ?>
@@ -235,14 +240,12 @@ AppAsset::register($this);
                         <?php if (Yii::$app->user->can('packageManagement')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('packages', 'index') ?>" href="/packages">
-                                    <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Packages
+                                    <i class="fa fa-certificate fa-fw fa-sm" role="button" ></i>Packages
                                 </a>
                             </li>
-                        <?php endif; ?>
-                        <?php if (Yii::$app->user->can('profileManagement')): ?>
                             <li class="nav-item">
-                                <a class="nav-link text-brown <?= isActive('settings/profile', 'index') ?>" href="/profile">
-                                    <i class="fa fa-user fa-fw fa-sm"></i>Profile
+                                <a class="nav-link text-brown <?= isActive('offers', 'index') ?>" href="/offers">
+                                    <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Offers
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -252,7 +255,15 @@ AppAsset::register($this);
                                     <i class="fa fa-user-secret fa-fw fa-sm"></i>Admins
                                 </a>
                             </li>
-                        <?php endif; ?>     
+                        <?php endif; ?> 
+                        <?php if (Yii::$app->user->can('profileManagement')): ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-brown <?= isActive('settings/profile', 'index') ?>" href="/profile">
+                                    <i class="fa fa-user fa-fw fa-sm"></i>Profile
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
                         <li class="nav-item">
                             <?=
                             Html::a('<i class="fa fa-lock fa-fw fa-sm"></i>Logout', ['/site/logout'], [

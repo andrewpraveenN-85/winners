@@ -42,6 +42,7 @@ class Profiles extends \yii\db\ActiveRecord {
     public $image;
     public $email;
     public $status;
+    public $password;
 
     public static function tableName() {
         return 'profiles';
@@ -55,7 +56,7 @@ class Profiles extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['user_id', 'first_name', 'last_name', 'sin', 'email', 'dob', 'address', 'mobile', 'gender', 'password'], 'required'],
+            [['user_id', 'first_name', 'last_name', 'sin', 'email', 'dob', 'address', 'mobile', 'gender',], 'required'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['user_id', 'dob', 'dor', 'address', 'img', 'notes', 'email', 'status', 'image'], 'safe'],
             [['notes'], 'string'],

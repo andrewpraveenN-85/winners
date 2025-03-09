@@ -10,7 +10,6 @@ use yii\grid\GridView;
 /** @var backend\models\UserSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 $this->title = 'Admins';
-$this->params['breadcrumbs'][] = 'Settings';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -50,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'Update',
                                 ['index', 'id' => $data->id],
                                 [
-                                    'class' => 'btn btn-primary',
+                                    'class' => 'btn btn-primary text-white',
                                     'data' => [
                                         'pjax' => 0, // Ensure a full page load instead of PJAX.
                                     ],
@@ -97,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-success w-100']) ?>
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>
@@ -114,7 +113,7 @@ $this->registerJs("
         }
         var myModalEl = document.getElementById('modal');
         myModalEl.addEventListener('hidden.bs.modal', function (event) {
-            window.location.href = '/settings/admins'; // Replace '/index' with the actual route to your index page.
+            window.location.href = '/admins'; // Replace '/index' with the actual route to your index page.
         });
         document.getElementById('generate-password').addEventListener('click', function() {
             let charset = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+\";

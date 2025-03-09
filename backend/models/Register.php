@@ -37,7 +37,6 @@ class Register extends \yii\db\ActiveRecord {
 
     public $image;
     public $email;
-    public $password;
     public $status;
     public $accept_age;
     public $accept_terms;

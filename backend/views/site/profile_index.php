@@ -42,9 +42,6 @@ $this->title = 'Dashboard';
         </div>
         <hr>
         <div class="row mb-3">
-            <div class="col-12"><strong>Winners</strong></div>
-        </div>
-        <div class="row mb-3">
             <div class="col-12">
                 <?=
                 GridView::widget([

@@ -9,13 +9,12 @@ use backend\models\Offers;
 /**
  * OffersSearch represents the model behind the search form of `backend\models\Offers`.
  */
-class OffersSearch extends Offers
-{
+class OffersSearch extends Offers {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['package_id', 'merchant_id', 'discount'], 'integer'],
         ];
@@ -24,8 +23,7 @@ class OffersSearch extends Offers
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,8 +35,7 @@ class OffersSearch extends Offers
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Offers::find();
 
         // add conditions that should always apply here
@@ -59,7 +56,6 @@ class OffersSearch extends Offers
         $query->andFilterWhere([
             'package_id' => $this->package_id,
             'merchant_id' => $this->merchant_id,
-            'discount' => $this->discount,
         ]);
 
         return $dataProvider;

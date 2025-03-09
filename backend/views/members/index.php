@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'Update',
                                 ['index', 'id' => $data->id],
                                 [
-                                    'class' => 'btn btn-primary',
+                                    'class' => 'btn btn-primary text-white',
                                     'data' => [
                                         'pjax' => 0, // Ensure a full page load instead of PJAX.
                                     ],
@@ -146,17 +146,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="mb-3">
                         <?= $form->field($model, 'notes')->textInput(['placeholder' => 'Additional notes', 'maxlength' => 200, 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
-
-                    <div class="mb-3">
-                        <?=
-                        $form->field($model, 'password', [
-                            'template' => '{label}<div class="input-group">{input}
-                            <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
-                            <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>
-                            {error}</div>',
-                        ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
-                        ?>
-                    </div>
                     <div class="mb-3">
                         <?=
                         $form->field($model, 'dor')->input('date', [
@@ -165,9 +154,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'class' => 'form-control bg-light text-dark'
                         ])
                         ?>
-                    </div>
-                    <div class="mb-3">
-                        <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -188,7 +174,7 @@ $this->registerJs("
         }
         var myModalEl = document.getElementById('modal');
         myModalEl.addEventListener('hidden.bs.modal', function (event) {
-            window.location.href = '/business/merchants'; // Replace '/index' with the actual route to your index page.
+            window.location.href = '/members'; // Replace '/index' with the actual route to your index page.
         });
     });
 ", \yii\web\View::POS_END); // Add at the end of the page

@@ -18,6 +18,9 @@ use yii\web\UploadedFile;
 use backend\models\User;
 use backend\models\Profiles;
 use backend\models\WinnersSearch;
+use backend\models\Draws;
+use backend\models\Events;
+use backend\models\Merchants;
 
 /**
  * Site controller
@@ -76,8 +79,27 @@ class SiteController extends Controller {
     public function actionIndex() {
         $userRole = key(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id));
         if ($userRole === 'Admin') {
-
+            $members = Profiles::find()
+                    ->joinWith('user') // Assuming the 'profile' relation is defined in the User model
+                    ->where(['users.status' => 10])
+                    ->count();
+            $memberships = Memberships::find()->where(['status' => 10])->count();
+            $packages = Packages::find()->where(['status' => 10])->count();
+            $draws = Draws::find()->where(['status' => 10])->count();
+            $events = Events::find()->where(['status' => 10])->count();
+            $merchants = Merchants::find()->joinWith('user') // Assuming the 'profile' relation is defined in the User model
+                    ->where(['users.status' => 10])
+                    ->count();
+            $searchModel = new WinnersSearch(['status' => 10]);
+            $dataProvider = $searchModel->search($this->request->queryParams);
             return $this->render('admin_index', [
+                        'members' => $members,
+                        'memberships' => $memberships,
+                        'packages' => $packages,
+                        'draws' => $draws,
+                        'events' => $events,
+                        'merchants' => $merchants,
+                        'dataProvider' => $dataProvider,
             ]);
         } elseif ($userRole === 'Merchant') {
             
@@ -86,7 +108,7 @@ class SiteController extends Controller {
             $user = User::findOne(['id' => Yii::$app->user->id]);
             $membership = Memberships::find()->where(['profile_id' => $profile->id])->orderBy(['created_at' => SORT_DESC])->one();
             $package = Packages::find()->where(['id' => $membership->package_id])->one();
-            $searchModel = new WinnersSearch(['profile_id' => $profile->id, 'status'=>10]);
+            $searchModel = new WinnersSearch(['profile_id' => $profile->id, 'status' => 10]);
             $dataProvider = $searchModel->search($this->request->queryParams);
             return $this->render('profile_index', [
                         'profile' => $profile,
@@ -142,7 +164,7 @@ class SiteController extends Controller {
                     $image->saveAs($upload);
                     $model->img = $imageName . '.' . $image->getExtension();
                 }
-                
+
                 //$this->createMembership($model->id, $model->package);
                 $model->save(false);
                 Yii::$app->session->setFlash('success', 'Member has been created successfully.');

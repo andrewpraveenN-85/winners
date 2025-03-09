@@ -47,7 +47,7 @@ class Memberships extends \yii\db\ActiveRecord {
 
     public function attributeLabels() {
         return [
-            'profile_id' => 'Profile',
+            'profile_id' => 'Member',
             'package_id' => 'Package',
             'status' => 'Status',
             'statusText' => 'Status',

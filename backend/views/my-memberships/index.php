@@ -2,7 +2,7 @@
 
 use yii\widgets\DetailView;
 use yii\grid\GridView;
-
+use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var backend\models\MembershipsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -50,6 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'columns' => [
                     [
+                        'format' => ['html'],
+                        'value' => function ($data) {
+                            return Html::img($data->imgURL, ['class' => 'img-fluid', 'style' => 'height: 100px;']); // options of size there
+                        },
+                    ],
+                    [
                         'attribute' => 'merchant.bussiness_name',
                         'label' => 'Merchant',
                     ],
@@ -93,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <p>Contact No: <strong><?= $profile->mobile; ?></strong></p>
                         </div>
                         <div class="position-absolute bottom-0 end-0 p-2">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=<?=$profile->id;?>" alt="QR Code" class="qr-code">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=<?= $profile->id; ?>" alt="QR Code" class="qr-code">
                         </div>
                     </div>
 
@@ -160,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
         text-align: left;
         margin-top: 5px;
     }
-    
+
     .info-section p {
         font-size: 10px; /* Reduced text size */
         margin-bottom: 2px;
