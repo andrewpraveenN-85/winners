@@ -14,11 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="memberships-index">
 
-    <p>
+<!--    <p>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
             Create
         </button>
-    </p>
+    </p>-->
 
     <?=
     GridView::widget([
@@ -79,24 +79,24 @@ $this->params['breadcrumbs'][] = $this->title;
                         ['class' => 'form-control', 'prompt' => 'Select']
                 ),
             ],
-            [
-                'class' => ActionColumn::className(),
-                'template' => '{custom}',
-                'buttons' => [
-                    'custom' => function ($url, $data, $key) {
-                        return Html::a(
-                                'Update',
-                                ['index', 'profile_id' => $data->profile_id, 'package_id' => $data->package_id],
-                                [
-                                    'class' => 'btn btn-primary',
-                                    'data' => [
-                                        'pjax' => 0, // Ensure a full page load instead of PJAX.
-                                    ],
-                                ]
-                        );
-                    },
-                ],
-            ],
+//            [
+//                'class' => ActionColumn::className(),
+//                'template' => '{custom}',
+//                'buttons' => [
+//                    'custom' => function ($url, $data, $key) {
+//                        return Html::a(
+//                                'Update',
+//                                ['index', 'profile_id' => $data->profile_id, 'package_id' => $data->package_id],
+//                                [
+//                                    'class' => 'btn btn-primary',
+//                                    'data' => [
+//                                        'pjax' => 0, // Ensure a full page load instead of PJAX.
+//                                    ],
+//                                ]
+//                        );
+//                    },
+//                ],
+//            ],
         ],
     ]);
     ?>

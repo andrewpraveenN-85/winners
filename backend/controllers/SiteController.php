@@ -128,12 +128,13 @@ class SiteController extends Controller {
         $this->layout = 'blank';
 
         $model = new Register();
-        $model->status = 10;
         $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
 
         if ($this->request->isPost && $model->load($this->request->post())) {
+            $model->status = 10;
             $userId = $this->createUserAndSave($model);
             if ($userId) {
+                $this->assignRoleToUser($userId);
                 $imageName = $model->id . "_Image";
                 $image = UploadedFile::getInstance($model, 'image');
                 if (!empty($image)) {
@@ -141,7 +142,7 @@ class SiteController extends Controller {
                     $image->saveAs($upload);
                     $model->img = $imageName . '.' . $image->getExtension();
                 }
-                $this->assignRoleToUser($userId);
+                
                 //$this->createMembership($model->id, $model->package);
                 $model->save(false);
                 Yii::$app->session->setFlash('success', 'Member has been created successfully.');
@@ -159,7 +160,7 @@ class SiteController extends Controller {
         $userId = $model->createUser();
         if ($userId) {
             $model->user_id = $userId;
-            if ($model->save(false)) {
+            if ($model->save()) {
                 return $userId;
             }
         }

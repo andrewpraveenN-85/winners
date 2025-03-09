@@ -260,7 +260,7 @@ class User extends ActiveRecord implements IdentityInterface {
     public function beforeSave($insert) {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->setPassword($this->email);
+                $this->setPassword($this->password);
                 $this->generateAuthKey();
             }
             return true;

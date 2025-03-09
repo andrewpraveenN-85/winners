@@ -35,10 +35,6 @@ use yii\behaviors\TimestampBehavior;
  */
 class Register extends \yii\db\ActiveRecord {
 
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
-
     public $image;
     public $email;
     public $password;
@@ -68,8 +64,6 @@ class Register extends \yii\db\ActiveRecord {
             [['sin'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
             [['email'], 'email'],
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             [['accept_terms'], 'required', 'requiredValue' => 1, 'message' => 'You must accept the terms.'],
             [['accept_terms'], 'boolean'], // Ensure it's a boolean value
             [['accept_age'], 'required', 'requiredValue' => 1, 'message' => 'You must accept the age restrictions.'],
@@ -130,7 +124,8 @@ class Register extends \yii\db\ActiveRecord {
         $user = new User();
         $user->email = $this->email;
         $user->status = $this->status;
-        if ($user->save()) {
+        $user->password = $this->password;
+        if ($user->save(false)) {
             return $user->id;
         }
         return false;

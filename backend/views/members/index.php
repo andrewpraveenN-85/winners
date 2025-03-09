@@ -13,12 +13,12 @@ $this->title = 'Members';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-
+<!--
     <p>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
             Create
         </button>
-    </p>
+    </p>-->
 
     <?=
     GridView::widget([

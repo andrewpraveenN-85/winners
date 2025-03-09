@@ -80,6 +80,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="mb-3">
                         <?= $form->field($model, 'email')->textInput(['maxlength' => 200, 'class' => 'form-control mb-2']) ?>
                     </div>
+                    <?php if ($model->isNewRecord) { ?>
+                        <div class="mb-3">
+                            <?=
+                            $form->field($model, 'password', [
+                                'template' => '{label}<div class="input-group">{input}
+                            <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
+                            <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>
+                            {error}</div>',
+                            ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
+                            ?>
+                        </div>
+                    <?php } ?>
                     <div class="mb-3">
                         <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>
@@ -104,6 +116,30 @@ $this->registerJs("
         myModalEl.addEventListener('hidden.bs.modal', function (event) {
             window.location.href = '/settings/admins'; // Replace '/index' with the actual route to your index page.
         });
+        document.getElementById('generate-password').addEventListener('click', function() {
+            let charset = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+\";
+            let password = \"\";
+            for (let i = 0; i < 12; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            document.getElementById('password').value = password;
+        });
+        document.querySelectorAll(\".toggle-password\").forEach(button => {
+            button.addEventListener(\"click\", function () {
+                let input = this.closest(\".input-group\").querySelector(\"input\");
+                let icon = this.querySelector(\"i\");
+
+                if (input.type === \"password\") {
+                    input.type = \"text\";
+                    icon.classList.remove(\"fa-eye\");
+                    icon.classList.add(\"fa-eye-slash\");
+                } else {
+                    input.type = \"password\";
+                    icon.classList.remove(\"fa-eye-slash\");
+                    icon.classList.add(\"fa-eye\");
+                }
+            });
+       });
     });
 ", \yii\web\View::POS_END); // Add at the end of the page
 ?>
