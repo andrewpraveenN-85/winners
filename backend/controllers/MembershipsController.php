@@ -41,10 +41,6 @@ class MembershipsController extends Controller {
         $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
         $profiles = Profiles::find()
                 ->select(['profiles.id', "CONCAT(profiles.first_name, ' ', profiles.last_name) AS full_name"])
-                ->innerJoinWith(['user' => function ($query) {
-                        $query->from(['user' => User::tableName()])
-                                ->andWhere(['user.status' => 10, 'user.status' => 9]); // Filter users with status 10
-                    }], false) // The `false` prevents Yii from auto-selecting `user.*`
                 ->asArray()
                 ->all();
         $profilesList = ArrayHelper::map($profiles, 'id', 'full_name');
