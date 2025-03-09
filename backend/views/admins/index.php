@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'template' => '{label}<div class="input-group">{input}
                             <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
                             <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>
-                            {error}</div>',
+                            </div>{error}',
                             ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
                             ?>
                         </div>

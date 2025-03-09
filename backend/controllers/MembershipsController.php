@@ -43,7 +43,7 @@ class MembershipsController extends Controller {
                 ->select(['profiles.id', "CONCAT(profiles.first_name, ' ', profiles.last_name) AS full_name"])
                 ->innerJoinWith(['user' => function ($query) {
                         $query->from(['user' => User::tableName()])
-                                ->andWhere(['user.status' => 10]); // Filter users with status 10
+                                ->andWhere(['user.status' => 10, 'user.status' => 9]); // Filter users with status 10
                     }], false) // The `false` prevents Yii from auto-selecting `user.*`
                 ->asArray()
                 ->all();

@@ -25,6 +25,7 @@ class AdminsController extends Controller {
 
     public function actionIndex($id = null) {
         $model = $id ? $this->findModel($id) : new User();
+        if(!$id){$model->scenario = User::SCENARIO_ADMIN;}
         $searchModel = new UserSearch(['role' => 'Admin']);
         $dataProvider = $searchModel->search($this->request->queryParams);
 
