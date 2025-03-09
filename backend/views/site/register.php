@@ -77,9 +77,10 @@ $this->title = "Register";
 
             <div class="mb-3">
                 <?=
-                $form->field($model, 'password', [
+                $formPassword->field($passwordmodel, 'password', [
                     'template' => '{label}<div class="input-group">{input}
                             <button type="button" class="btn btn-outline-secondary toggle-password"><i class="fa fa-eye"></i></button>
+                            <button type="button" class="btn btn-outline-secondary" id="generate-password" ><i class="fa fa-key"></i></button>
                             {error}</div>',
                 ])->passwordInput(['placeholder' => 'Password', 'id' => 'password'])
                 ?>
