@@ -159,6 +159,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     <?php } ?>
                     <div class="mb-3">
+                        <?= $form->field($model, 'purchase_url')->textInput(['maxlength' => true, 'class' => 'form-control mb-2']) ?>
+                    </div>
+                    <div class="mb-3">
                         <?= $form->field($model, 'status')->dropDownList([9 => 'Inactive', 10 => 'Active'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
                     </div>
                 </div>

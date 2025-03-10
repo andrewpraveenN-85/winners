@@ -16,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $smart_saving_events
  * @property int $merchants_discount
  * @property string|null $img
+ * @property string|null $purchase_url
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -46,9 +47,9 @@ class Packages extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'status'], 'required'],
-            [['description', 'duration', 'image'], 'string'],
-            [['description', 'image'], 'safe'],
+            [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'purchase_url','status'], 'required'],
+            [['description', 'duration', 'image','purchase_url'], 'string'],
+            [['description', 'image', 'purchase_url'], 'safe'],
             [['entry_point', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
@@ -67,6 +68,9 @@ class Packages extends \yii\db\ActiveRecord {
             'merchants_discount' => 'Discount %',
             'status' => 'Status',
             'statusText' => 'Status',
+            'img' => 'Banner',
+            'image' => 'Banner',
+            'purchase_url' => 'purchase_url',
             'created_at' => 'Created',
             'updated_at' => 'Updated',
         ];
