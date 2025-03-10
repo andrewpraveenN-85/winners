@@ -9,24 +9,22 @@ use backend\models\Draws;
 /**
  * DrawsSearch represents the model behind the search form of `backend\models\Draws`.
  */
-class DrawsSearch extends Draws
-{
+class DrawsSearch extends Draws {
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'package_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['date_time'], 'safe'],
+            [['description', 'date_time'], 'safe'],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +36,7 @@ class DrawsSearch extends Draws
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Draws::find();
 
         // add conditions that should always apply here
@@ -62,9 +59,9 @@ class DrawsSearch extends Draws
             'package_id' => $this->package_id,
             'date_time' => $this->date_time,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
+
+        $query->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

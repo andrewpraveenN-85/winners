@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use Yii;
 use backend\models\Draws;
 use backend\models\DrawsSearch;
 use yii\web\Controller;
@@ -38,7 +39,7 @@ class DrawsController extends Controller {
     }
 
     public function actionCreate() {
-        $model = new Events();
+        $model = new Draws();
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Member has been created successfully.');
             return $this->redirect(['index']);

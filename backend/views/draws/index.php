@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 '<i class="bi bi-pencil"></i> Update',
                                 ['index', 'id' => $model->id],
                                 [
-                                    'class' => 'btn btn-primary',
+                                    'class' => 'btn btn-primary text-white',
                                     'data' => ['pjax' => 0],
                                 ]
                         );
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Create/Update Modal -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <?php if ($model->isNewRecord) { ?>
                     <?php $form = ActiveForm::begin(['action' => ['create'], 'options' => ['enctype' => 'multipart/form-data']]); ?>
@@ -94,21 +94,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <?= $form->field($model, 'package_id')->dropDownList($packages, ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
-                            </div>
-                            <div class="mb-3">
-                                <?= $form->field($model, 'date_time')->textInput(['type' => 'datetime-local']) ?>
-                            </div>
-                            <div class="mb-3">
-                                <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
-                            </div>
-                        </div>
-                        <div class="col-6">
-
-                        </div>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'package_id')->dropDownList($packages, ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'description')->textarea(['rows' => 2, 'class' => 'form-control mb-2']) ?>
+                    </div>
+                    <div class="mb-3">
+                        <?=
+                        $form->field($model, 'date_time')->textInput([
+                            'type' => 'datetime-local',
+                            'min' => date('Y-m-d\T00:00', strtotime('+1 day'))
+                        ])
+                        ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>
                 </div>
                 <div class="modal-footer">

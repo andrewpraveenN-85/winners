@@ -5,7 +5,6 @@ use yii\helpers\Html;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
-use backend\models\User;
 
 /** @var yii\web\View $this */
 /** @var backend\models\PackagesSearch $searchModel */
@@ -26,6 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            [
+                'format' => ['html'],
+                'value' => function ($data) {
+                    return Html::img($data->imgURL, ['class' => 'img-fluid', 'style' => 'height: 50px;']); // options of size there
+                },
+            ],
             'name',
             [
                 'attribute' => 'duration',
@@ -145,6 +150,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, 'duration')->dropDownList(['monthly' => 'Monthly', 'yearly' => 'Yearly'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <?= $form->field($model, 'image')->fileInput(['placeholder' => 'Banner image', 'class' => 'form-control bg-light text-dark']) ?>
+                    </div>
+                    <?php if (!$model->isNewRecord) { ?>
+                        <div class="mb-3">
+                            <img class="img-fluid" src="<?= $model->imgURL; ?>" style="height:100px;">
+                        </div>
+                    <?php } ?>
                     <div class="mb-3">
                         <?= $form->field($model, 'status')->dropDownList([9 => 'Inactive', 10 => 'Active'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
                     </div>

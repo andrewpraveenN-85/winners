@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $entry_point
  * @property int $smart_saving_events
  * @property int $merchants_discount
+ * @property string|null $img
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -31,6 +32,8 @@ class Packages extends \yii\db\ActiveRecord {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
     
+     public $image;
+    
     public static function tableName() {
         return 'packages';
     }
@@ -44,7 +47,8 @@ class Packages extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'status'], 'required'],
-            [['description', 'duration'], 'string'],
+            [['description', 'duration', 'image'], 'string'],
+            [['description', 'image'], 'safe'],
             [['entry_point', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
@@ -106,6 +110,14 @@ class Packages extends \yii\db\ActiveRecord {
         }
         if ($this->smart_saving_events == 0) {
             return 'INACTIVE';
+        }
+    }
+    
+    public function getImgURL() {
+        if ($this->img != null) {
+            return Yii::$app->params['back_host'] . 'packages/' . $this->img;
+        } else {
+            return Yii::$app->params['back_host'] . 'default.jpg';
         }
     }
 }
