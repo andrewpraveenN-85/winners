@@ -1,6 +1,5 @@
 <?php
 
-use backend\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\grid\ActionColumn;
@@ -34,23 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'first_name',
             'last_name',
             'sin',
-            [
-                'attribute' => 'status',
-                'value' => function ($model) {
-                    return $model->user ? ($model->user->status == User::STATUS_ACTIVE ? 'Active' :
-                    ($model->user->status == User::STATUS_INACTIVE ? 'Inactive' : 'Deleted')) : 'N/A';
-                },
-                'filter' => Html::activeDropDownList(
-                        $searchModel,
-                        'status',
-                        [
-                            User::STATUS_ACTIVE => 'Active',
-                            User::STATUS_INACTIVE => 'Inactive',
-                            User::STATUS_DELETED => 'Deleted',
-                        ],
-                        ['class' => 'form-control', 'prompt' => 'Select']
-                ),
-            ],
             [
                 'class' => ActionColumn::className(),
                 'template' => '{custom}',
