@@ -222,6 +222,11 @@ AppAsset::register($this);
                                     <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
                                 </a>
                             </li>
+<!--                            <li class="nav-item">
+                                <a class="nav-link text-brown <?= isActive('events', 'index') ?>" href="/events">
+                                    <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
+                                </a>
+                            </li>-->
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myEvents')): ?>
                             <li class="nav-item">

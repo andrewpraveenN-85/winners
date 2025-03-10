@@ -16,8 +16,8 @@ class EventsSearch extends Events {
      */
     public function rules() {
         return [
-            [['id', 'maximum_participations', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'description', 'address', 'date_time', 'registration_deadline'], 'safe'],
+            [['package_id', 'status', ], 'integer'],
+            [['name', 'date_time'], 'safe'],
         ];
     }
 
@@ -55,18 +55,12 @@ class EventsSearch extends Events {
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'package_id' => $this->package_id,
             'date_time' => $this->date_time,
-            'registration_deadline' => $this->registration_deadline,
-            'maximum_participations' => $this->maximum_participations,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-                ->andFilterWhere(['like', 'description', $this->description])
-                ->andFilterWhere(['like', 'address', $this->address]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

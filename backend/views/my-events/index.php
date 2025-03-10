@@ -5,7 +5,7 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var backend\models\MembershipsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
-$this->title = 'My Draws';
+$this->title = 'My Events';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="memberships-index">
@@ -15,6 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
             GridView::widget([
                 'dataProvider' => $dataProvider,
                 'columns' => [
+                    [
+                        'format' => ['html'],
+                        'value' => function ($data) {
+                            return Html::img($data->imgURL, ['class' => 'img-fluid', 'style' => 'height: 50px;']); // options of size there
+                        },
+                    ],
                     [
                         'attribute' => 'event_id',
                         'label' => 'Event Name',
@@ -31,6 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'enableSorting' => false, // Disable sorting
                     ],
+                    'address',
+                    [
+                        'attribute' => 'status',
+                        'value' => 'statusText',
+                    ]
                 ],
             ]);
             ?>

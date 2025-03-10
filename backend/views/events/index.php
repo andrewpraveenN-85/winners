@@ -25,6 +25,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            [
+                'format' => ['html'],
+                'value' => function ($data) {
+                    return Html::img($data->imgURL, ['class' => 'img-fluid', 'style' => 'height: 50px;']); // options of size there
+                },
+            ],
+            [
+                'attribute' => 'package_id',
+                'value' => function ($model) {
+                    return $model->package ? $model->package->name : 'Not Assigned'; // Change 'name' based on your package field
+                },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'package_id',
+                        $packages, // Array of packages ['id' => 'Package Name']
+                        ['class' => 'form-control', 'prompt' => 'Select']
+                ),
+            ],
             'name',
             [
                 'attribute' => 'date_time',
@@ -34,28 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'value' => function ($model) {
                     return Yii::$app->formatter->asDatetime($model->date_time);
-                },
-            ],
-            [
-                'attribute' => 'registration_deadline',
-                'filter' => Html::activeInput('date', $searchModel, 'registration_deadline', [
-                    'class' => 'form-control',
-                    'placeholder' => 'Select Date',
-                ]),
-                'value' => function ($model) {
-                    return Yii::$app->formatter->asDate($model->registration_deadline);
-                },
-            ],
-            [
-                'attribute' => 'maximum_participations',
-                'filter' => Html::activeInput('number', $searchModel, 'maximum_participations', [
-                    'class' => 'form-control',
-                    'step' => 1, // Step set to 1
-                    'min' => 1, // Minimum value set to 1
-                    'placeholder' => 'Enter number',
-                ]),
-                'value' => function ($model) {
-                    return $model->maximum_participations;
                 },
             ],
             [
@@ -81,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'Update',
                                 ['index', 'id' => $data->id],
                                 [
-                                    'class' => 'btn btn-primary',
+                                    'class' => 'btn btn-primary text-white',
                                     'data' => [
                                         'pjax' => 0, // Ensure a full page load instead of PJAX.
                                     ],
@@ -109,6 +105,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
+                        <?= $form->field($model, 'package_id')->dropDownList($packages, ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
+                    </div>
+                    <div class="mb-3">
                         <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
                     </div>
                     <div class="mb-3">
@@ -121,11 +120,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'date_time')->textInput(['type' => 'datetime-local']) ?>
                     </div>
                     <div class="mb-3">
-                        <?= $form->field($model, 'registration_deadline')->textInput(['type' => 'date']) ?>
+                        <?= $form->field($model, 'image')->fileInput(['placeholder' => 'Banner image', 'class' => 'form-control bg-light text-dark']) ?>
                     </div>
-                    <div class="mb-3">
-                        <?= $form->field($model, 'maximum_participations')->textInput(['type' => 'number', 'min'=>1, 'step'=>1]) ?>
-                    </div>
+                    <?php if (!$model->isNewRecord) { ?>
+                        <div class="mb-3">
+                            <img class="img-fluid" src="<?= $model->imgURL; ?>" style="height:100px;">
+                        </div>
+                    <?php } ?>
                     <div class="mb-3">
                         <?= $form->field($model, 'status')->dropDownList([0 => 'Deleted', 9 => 'Inactive', 10 => 'Active'], ['class' => 'form-control mb-2', 'prompt' => 'Select',]) ?>
                     </div>
