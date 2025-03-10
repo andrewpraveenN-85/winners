@@ -1,6 +1,7 @@
 <?php
 
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var backend\models\MembershipsSearch $searchModel */
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'format' => ['html'],
                         'value' => function ($data) {
-                            return Html::img($data->imgURL, ['class' => 'img-fluid', 'style' => 'height: 50px;']); // options of size there
+                            return Html::img($data->event->imgURL, ['class' => 'img-fluid', 'style' => 'height: 50px;']); // options of size there
                         },
                     ],
                     [
@@ -37,10 +38,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'enableSorting' => false, // Disable sorting
                     ],
-                    'address',
+                    [
+                        'attribute' => 'address',
+                        'label' => 'Address',
+                        'value' => function ($model) {
+                            return $model->event->address ?? '(No address)';
+                        },
+                        'enableSorting' => false, // Disable sorting
+                    ],
                     [
                         'attribute' => 'status',
-                        'value' => 'statusText',
+                        'label' => 'Status',
+                        'value' => function ($model) {
+                            return $model->event->statusText ?? '(No status)';
+                        },
+                        'enableSorting' => false, // Disable sorting
                     ]
                 ],
             ]);
