@@ -36,7 +36,7 @@ class SiteController extends Controller {
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error', 'request-password-reset', 'reset-password', 'register'],
+                        'actions' => ['login', 'error', 'request-password-reset', 'reset-password', 'register', 'packages'],
                         'allow' => true,
                     ],
                     [
@@ -150,7 +150,6 @@ class SiteController extends Controller {
         $this->layout = 'blank';
 
         $model = new Register();
-        $packages = ArrayHelper::map(Packages::find()->andWhere(['status' => 10])->all(), 'id', 'name');
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->status = 9;
@@ -168,16 +167,28 @@ class SiteController extends Controller {
                 //$this->createMembership($model->id, $model->package);
                 $model->save(false);
                 Yii::$app->session->setFlash('success', 'Member has been created successfully.');
-                return $this->goBack();
+                return $this->redirect(['packages']);
             }
         }
 
         return $this->render('register', [
                     'model' => $model,
+        ]);
+    }
+    
+    public function actionPackages() {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $this->layout = 'blank';
+        
+        $packages = Packages::find()->where(['status' => 10])->all();
+        
+        return $this->render('packages', [
                     'packages' => $packages,
         ]);
     }
-
     private function createUserAndSave($model) {
         $userId = $model->createUser();
         if ($userId) {
