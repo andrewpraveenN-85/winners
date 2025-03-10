@@ -28,6 +28,7 @@ class Config extends \yii\db\ActiveRecord
         return [
             [['name', 'value'], 'required'],
             [['name', 'value'], 'string', 'max' => 255],
+            [['name', 'value'], 'unique', 'targetAttribute' => ['name', 'value']],
             [['name'], 'unique'],
         ];
     }

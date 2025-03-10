@@ -11,11 +11,15 @@ $this->title = 'My Memberships';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="memberships-index">
-    <p>
+
+    <p class="mb-3">
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
             Membership Card
         </button>
+        
+        <?= Html::a('Upgrade Membership', $package_upgrade->value, ['class' => 'btn btn-primary text-white', 'target' => '_blank']); ?>
     </p>
+
     <div class="row">
         <div class="col-6">
             <?=
@@ -41,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'label' => 'Registered',
                         'value' => function ($data) {
-                                return date("Y-m-d", $data->created_at);
+                            return date("Y-m-d", $data->created_at);
                         }
                     ],
                     [

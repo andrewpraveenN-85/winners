@@ -8,7 +8,7 @@ use yii2mod\rbac\filters\AccessControl;
 use Yii;
 use backend\models\Profiles;
 use backend\models\Packages;
-use backend\models\User;
+use backend\models\Config;
 use backend\models\OffersSearch;
 
 /**
@@ -33,12 +33,14 @@ class MyMembershipsController extends Controller {
         $package = Packages::find()->where(['id' => $membership->package_id])->one();
         $searchModel = new OffersSearch(['package_id' => $membership->package_id]);
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $package_upgrade = Config::findOne(['name' => 'PACKAGE_UPGRADE']);
         return $this->render('index', [
                     'profile' => $profile,
                     'membership' => $membership,
                     'package' => $package,
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'package_upgrade' => $package_upgrade,
         ]);
     }
 }

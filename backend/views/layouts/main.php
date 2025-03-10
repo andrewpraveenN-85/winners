@@ -260,6 +260,11 @@ AppAsset::register($this);
                                     <i class="fa fa-user-secret fa-fw fa-sm"></i>Admins
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-brown <?= isActive('configurations', 'index') ?>" aria-current="page" href="/configurations">
+                                    <i class="fa fa-magic fa-fw fa-sm"></i>configurations
+                                </a>
+                            </li>
                         <?php endif; ?> 
                         <?php if (Yii::$app->user->can('profileManagement')): ?>
                             <li class="nav-item">
