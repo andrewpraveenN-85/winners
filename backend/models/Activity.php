@@ -31,7 +31,7 @@ class Activity extends \yii\db\ActiveRecord {
 
     public function attributeLabels() {
         return [
-            'profile_id' => 'Profile',
+            'profile_id' => 'Member',
             'event_id' => 'Event',
         ];
     }

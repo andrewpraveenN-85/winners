@@ -118,12 +118,16 @@ class Profiles extends \yii\db\ActiveRecord {
     public function getWinners() {
         return $this->hasMany(Winners::class, ['profile_id' => 'id']);
     }
-    
+
     public function getImgURL() {
         if ($this->img != null) {
             return Yii::$app->params['back_host'] . 'profile/' . $this->img;
         } else {
             return Yii::$app->params['back_host'] . 'default.jpg';
         }
+    }
+
+    public function getFullName() {
+        return$this->first_name.' '.$this->last_name;
     }
 }

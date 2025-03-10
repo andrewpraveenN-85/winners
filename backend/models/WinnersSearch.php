@@ -17,7 +17,7 @@ class WinnersSearch extends Winners
     public function rules()
     {
         return [
-            [['profile_id', 'gift_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['profile_id', 'draw_id', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -58,7 +58,7 @@ class WinnersSearch extends Winners
         // grid filtering conditions
         $query->andFilterWhere([
             'profile_id' => $this->profile_id,
-            'gift_id' => $this->gift_id,
+            'draw_id' => $this->draw_id,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

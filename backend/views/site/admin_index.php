@@ -64,20 +64,24 @@ $this->title = 'Dashboard';
                     'dataProvider' => $dataProvider,
                     'columns' => [
                         [
-                            'attribute' => 'gift.draw.package.name',
-                            'label' => 'Package Name',
+                            'attribute' => 'draw.date_time',
+                            'label' => 'DateTime',
+                            'enableSorting' => false,
                         ],
                         [
-                            'attribute' => 'gift.draw.id',
-                            'label' => 'Draw ID',
+                            'attribute' => 'draw.description',
+                            'label' => 'Description',
+                            'enableSorting' => false,
                         ],
                         [
-                            'attribute' => 'gift.draw.date_time',
-                            'label' => 'Draw DateTime',
+                            'attribute' => 'profile.fullName',
+                            'label' => 'Member',
+                            'enableSorting' => false,
                         ],
                         [
-                            'attribute' => 'gift.name',
-                            'label' => 'Gift Name',
+                            'attribute' => 'status',
+                            'label' => 'status',
+                            'enableSorting' => false,
                         ],
                     ],
                 ]);
