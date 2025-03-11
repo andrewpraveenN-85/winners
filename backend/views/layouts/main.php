@@ -208,6 +208,11 @@ AppAsset::register($this);
                                     <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
                                 </a>
                             </li>
+                             <li class="nav-item">
+                                <a class="nav-link text-brown <?= isActive('players', 'index') ?>" href="/players">
+                                    <i class="fa fa-handshake-o fa-fw fa-sm" role="button" ></i>Players
+                                </a>
+                            </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myDraws')): ?>
                             <li class="nav-item">

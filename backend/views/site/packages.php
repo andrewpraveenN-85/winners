@@ -18,15 +18,15 @@ $this->title = "Packages";
                     <?php foreach ($packages as $package): ?>
                         <div class="card shadow-sm">
                             <img src="<?= Html::encode($package->getImgURL()) ?>" class="card-img-top" alt="<?= Html::encode($package->name) ?>" style="height: 200px; object-fit: cover;">
-                            <div class="card-body">
+<!--                            <div class="card-body">
                                 <h5 class="card-title"><?= Html::encode($package->name) ?></h5>
                                 <p class="card-text"><strong>Duration:</strong> <?= Html::encode($package->duration) ?></p>
                                 <p class="card-text"><strong>Entries:</strong> <?= Html::encode($package->entry_point) ?></p>
                                 <p class="card-text"><strong>Events:</strong> <?= Html::encode($package->getEventText()) ?></p>
                                 <p class="card-text"><strong>Discount:</strong> <?= Html::encode($package->merchants_discount) ?>%</p>
-                            </div>
+                            </div>-->
                             <div class="card-footer">
-                                <small class="text-muted">Last updated <?= date('d M Y', $package->updated_at) ?></small>
+                                <!--<small class="text-muted">Last updated <?= date('d M Y', $package->updated_at) ?></small>-->
                                 <a href="<?= Html::encode($package->purchase_url) ?>" class="btn btn-primary btn-sm float-end" target="_blank">Purchase</a>
                             </div>
                         </div>
