@@ -174,17 +174,20 @@ class SiteController extends Controller {
                     'model' => $model,
         ]);
     }
-    
+
     public function actionPackages() {
         $this->layout = 'blank';
-        
-        $m1_packages = Packages::find()->where(['status' => 10, 'duration' =>1])->all();
-        $m6_packages = Packages::find()->where(['status' => 10, 'duration' =>6])->all();
-        $m12_packages = Packages::find()->where(['status' => 10, 'duration' =>12])->all();
+
+        $m1_packages = Packages::find()->where(['status' => 10, 'duration' => 1])->all();
+        $m6_packages = Packages::find()->where(['status' => 10, 'duration' => 6])->all();
+        $m12_packages = Packages::find()->where(['status' => 10, 'duration' => 12])->all();
         return $this->render('packages', [
-                    'packages' => $packages,
+                    'm1_packages' => $m1_packages,
+                    'm6_packages' => $m6_packages,
+                    'm12_packages' => $m12_packages,
         ]);
     }
+
     private function createUserAndSave($model) {
         $userId = $model->createUser();
         if ($userId) {
