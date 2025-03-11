@@ -11,7 +11,6 @@ use yii\web\Response;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\Packages;
-use yii\helpers\ArrayHelper;
 use backend\models\Register;
 use backend\models\Memberships;
 use yii\web\UploadedFile;
@@ -40,7 +39,7 @@ class SiteController extends Controller {
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'packages'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -177,9 +176,9 @@ class SiteController extends Controller {
     }
     
     public function actionPackages() {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+//        if (!Yii::$app->user->isGuest) {
+//            return $this->goHome();
+//        }
 
         $this->layout = 'blank';
         

@@ -39,8 +39,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         $searchModel,
                         'duration',
                         [
-                            'monthly' => 'Monthly',
-                            'yearly' => 'yearly',
+                            '1' => 'Monthly',
+                            '6' => '6 Month',
+                            '12' => 'Annually',
                         ],
                         ['class' => 'form-control', 'prompt' => 'Select']
                 ),
@@ -147,7 +148,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             ?>
                         </div>
                         <div class="col-3">
-                            <?= $form->field($model, 'duration')->dropDownList(['monthly' => 'Monthly', 'yearly' => 'Yearly'], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
+                            <?= $form->field($model, 'duration')->dropDownList([
+                            '1' => 'Monthly',
+                            '6' => '6 Month',
+                            '12' => 'Annually',
+                        ], ['prompt' => 'Select', 'class' => 'form-control mb-2']) ?>
                         </div>
                     </div>
                     <div class="mb-3">

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal">
             Membership Card
         </button>
-        
+
         <?= Html::a('Upgrade Membership', $package_upgrade->value, ['class' => 'btn btn-primary text-white', 'target' => '_blank']); ?>
     </p>
 
@@ -51,12 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'label' => 'Ecpire',
                         'value' => function ($data) {
-                            if ($data->package->duration == 'monthly') {
-                                return date("Y-m-d", strtotime("+1 month", $data->created_at));
-                            }
-                            if ($data->package->duration == 'yearly') {
-                                return date("Y-m-d", strtotime("+1 year", $data->created_at));
-                            }
+                            return date("Y-m-d", strtotime("+" . $data->package->duration . " month", $data->created_at));
                         }
                     ]
                 ],
@@ -95,15 +90,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center align-items-center">
-                    <?php
-                    if ($package->duration == 'monthly') {
-                        $expire = date("Y-m-d", strtotime("+1 month", $membership->created_at));
-                    }
-                    if ($package->duration == 'yearly') {
-                        $expire = date("Y-m-d", strtotime("+1 year", $membership->created_at));
-                    }
-                    ?>
-
                     <div class="card-container">
                         <img src="/media/logo.png" alt="Logo" class="logo">
                         <div class="header"><?= $package->name; ?></div>
@@ -114,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                         <div class="info-section">
-                            <p>Expiry on: <strong><?= $expire; ?></strong></p>
+                            <p>Expiry on: <strong><?= date("Y-m-d", strtotime("+" . $membership->package->duration . " month", $membership->created_at)); ?></strong></p>
                             <p>Member No: <strong>M<?= str_pad($profile->id, 6, "0", STR_PAD_LEFT); ?></strong></p>
                             <p>NIC/DL/PP No: <strong><?= $profile->sin; ?></strong></p>
                             <p>Contact No: <strong><?= $profile->mobile; ?></strong></p>
