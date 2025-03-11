@@ -3,7 +3,6 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 
 /** @var \backend\models\RegisterForm $model */
-use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = "Packages";
@@ -31,7 +30,7 @@ $this->title = "Packages";
             <div class="tab-content mt-3" id="myTabContent">
                 <div class="tab-pane fade show active" id="m1" role="tabpanel" aria-labelledby="m1-tab">
                     <?php if (!empty($m1_packages)): ?>
-                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
                             <?php foreach ($m1_packages as $package): ?>
                                 <div class="col">
                                     <div class="card shadow-sm">
