@@ -54,6 +54,14 @@ $this->beginPage();
             .btn-warning:hover {
                 background-color: #e68900;
             }
+            .nav-tabs .nav-link {
+                color: black !important; /* Ensures text is black (Bootstrap default for btn-warning) */
+            }
+            .nav-tabs .nav-link.active {
+                background-color: #ffc107 !important; /* Keeps the warning color */
+                color: black !important; /* Keeps text black for the active tab */
+                border-color: #ffc107 !important; /* Optional: Keeps border color consistent */
+            }
         </style>
     </head>
     <body class="d-flex flex-column h-100">

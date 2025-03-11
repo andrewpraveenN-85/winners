@@ -15,14 +15,14 @@ $this->title = "Packages";
 
             <!-- Nav Tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link text-brown active" id="m1-tab" data-bs-toggle="tab" data-bs-target="#m1" type="button" role="tab" aria-controls="monthly" aria-selected="true">Monthly</button>
+                <li class="nav-item me-2" role="presentation">
+                    <button class="nav-link btn btn-warning active" id="m1-tab" data-bs-toggle="tab" data-bs-target="#m1" type="button" role="tab" aria-controls="monthly" aria-selected="true">Monthly</button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link text-brown " id="m6-tab" data-bs-toggle="tab" data-bs-target="#m6" type="button" role="tab" aria-controls="6-month" aria-selected="false">6 Month</button>
+                <li class="nav-item me-2" role="presentation">
+                    <button class="nav-link btn btn-warning " id="m6-tab" data-bs-toggle="tab" data-bs-target="#m6" type="button" role="tab" aria-controls="6-month" aria-selected="false">6 Month</button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link text-brown " id="m12-tab" data-bs-toggle="tab" data-bs-target="#m12" type="button" role="tab" aria-controls="annually" aria-selected="false">Annually</button>
+                <li class="nav-item me-2" role="presentation">
+                    <button class="nav-link btn btn-warning " id="m12-tab" data-bs-toggle="tab" data-bs-target="#m12" type="button" role="tab" aria-controls="annually" aria-selected="false">Annually</button>
                 </li>
             </ul>
 
