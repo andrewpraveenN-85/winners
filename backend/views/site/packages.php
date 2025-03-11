@@ -13,7 +13,39 @@ $this->title = "Packages";
         <!-- Left: Scrollable Form -->
         <div class="col-md-12 bg-white p-4" style="max-height: 80vh; overflow-y: auto; scrollbar-color: #5C4033 #FFD700; scrollbar-width: thin;">
             <h3 class="text-warning fw-bold text-center">Packages</h3>
-            <?php if (!empty($packages)): ?>
+            
+                <!-- Nav Tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-3" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h4>Home Tab Content</h4>
+            <p>Welcome to the home section.</p>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <h4>Profile Tab Content</h4>
+            <p>This is the profile section.</p>
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <h4>Contact Tab Content</h4>
+            <p>Get in touch via this section.</p>
+        </div>
+    </div>
+                
+                
+                
+                <?php if (!empty($packages)): ?>
                 <div class="card-group">
                     <?php foreach ($packages as $package): ?>
                         <div class="card shadow-sm">

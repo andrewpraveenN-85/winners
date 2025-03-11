@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="modal-body d-flex justify-content-center align-items-center">
                     <div class="card-container">
                         <img src="/media/logo.png" alt="Logo" class="logo">
-                        <div class="header"><?= $package->name; ?></div>
+                        <div class="header"><?= $package->name; ?> Membership</div>
                         <div class="profile-section">
                             <img src="<?= $profile->imgURL; ?>" alt="Profile Picture" class="profile-img">
                             <div class="profile-name">
@@ -100,10 +100,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                         <div class="info-section">
-                            <p>Expiry on: <strong><?= date("Y-m-d", strtotime("+" . $membership->package->duration . " month", $membership->created_at)); ?></strong></p>
-                            <p>Member No: <strong>M<?= str_pad($profile->id, 6, "0", STR_PAD_LEFT); ?></strong></p>
-                            <p>NIC/DL/PP No: <strong><?= $profile->sin; ?></strong></p>
-                            <p>Contact No: <strong><?= $profile->mobile; ?></strong></p>
+                            <p><span class="info-title">Expiry on:</span> <?= date("Y-m-d", strtotime("+" . $membership->package->duration . " month", $membership->created_at)); ?></p>
+                            <p><span class="info-title">Member No:</span> M<?= str_pad($profile->id, 6, "0", STR_PAD_LEFT); ?></p>
+                            <p><span class="info-title">NIC/DL/PP No:</span> <?= $profile->sin; ?></p>
+                            <p><span class="info-title">Contact No:</span> <?= $profile->mobile; ?></p>
                         </div>
                         <div class="position-absolute bottom-0 end-0 p-2">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=<?= $profile->id; ?>" alt="QR Code" class="qr-code">
@@ -195,6 +195,11 @@ $this->params['breadcrumbs'][] = $this->title;
     p {
         margin-bottom: 2px;
     }
+    .info-title {
+        display: inline-block;
+        min-width: 80px; /* Adjust this value as needed */
+        font-weight: bold;
+    }
 </style>
 <?php
 $this->registerJs("
@@ -277,6 +282,11 @@ $this->registerJs("
                     }
                     p {
                         margin-bottom: 2px;
+                    }
+                    .info-title {
+                        display: inline-block;
+                        min-width: 80px; /* Adjust this value as needed */
+                        font-weight: bold;
                     }
                     @media print {
                         body {
