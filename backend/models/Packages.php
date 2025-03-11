@@ -32,9 +32,9 @@ class Packages extends \yii\db\ActiveRecord {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-    
-     public $image;
-    
+
+    public $image;
+
     public static function tableName() {
         return 'packages';
     }
@@ -47,10 +47,10 @@ class Packages extends \yii\db\ActiveRecord {
 
     public function rules() {
         return [
-            [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'purchase_url','status'], 'required'],
-            [['description',  'image','purchase_url'], 'string'],
+            [['name', 'duration', 'entry_point', 'smart_saving_events', 'merchants_discount', 'purchase_url', 'status'], 'required'],
+            [['description', 'image', 'purchase_url'], 'string'],
             [['description', 'image',], 'safe'],
-            [['entry_point','duration', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['entry_point', 'duration', 'smart_saving_events', 'merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
@@ -95,7 +95,7 @@ class Packages extends \yii\db\ActiveRecord {
     public function getProfiles() {
         return $this->hasMany(Profiles::class, ['id' => 'profile_id'])->viaTable('memberships', ['package_id' => 'id']);
     }
-    
+
     public function getStatusText() {
         if ($this->status == self::STATUS_ACTIVE) {
             return 'ACTIVE';
@@ -107,7 +107,19 @@ class Packages extends \yii\db\ActiveRecord {
             return 'DELETED';
         }
     }
-    
+
+    public function getDurationText() {
+        if ($this->duration == 1) {
+            return 'Monthly';
+        }
+        if ($this->duration == 6) {
+            return '6 Month';
+        }
+        if ($this->duration == 12) {
+            return 'Annually';
+        }
+    }
+
     public function getEventText() {
         if ($this->smart_saving_events == 1) {
             return 'ACTIVE';
@@ -116,7 +128,7 @@ class Packages extends \yii\db\ActiveRecord {
             return 'INACTIVE';
         }
     }
-    
+
     public function getImgURL() {
         if ($this->img != null) {
             return Yii::$app->params['back_host'] . 'packages/' . $this->img;

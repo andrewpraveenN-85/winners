@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             [
                 'attribute' => 'duration',
-                'value' => 'duration',
+                'value' => 'durationText',
                 'filter' => Html::activeDropDownList(
                         $searchModel,
                         'duration',
