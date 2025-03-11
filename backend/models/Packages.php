@@ -11,7 +11,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property string $duration
+ * @property int $duration
  * @property int $entry_point
  * @property int $smart_saving_events
  * @property int $merchants_discount
@@ -48,9 +48,9 @@ class Packages extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['name', 'duration', 'entry_point', 'smart_saving_events','merchants_discount', 'purchase_url','status'], 'required'],
-            [['description', 'duration', 'image','purchase_url'], 'string'],
-            [['description', 'image', 'purchase_url'], 'safe'],
-            [['entry_point', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['description',  'image','purchase_url'], 'string'],
+            [['description', 'image',], 'safe'],
+            [['entry_point','duration', 'smart_saving_events','merchants_discount', 'status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],

@@ -176,14 +176,11 @@ class SiteController extends Controller {
     }
     
     public function actionPackages() {
-//        if (!Yii::$app->user->isGuest) {
-//            return $this->goHome();
-//        }
-
         $this->layout = 'blank';
         
-        $packages = Packages::find()->where(['status' => 10])->all();
-        
+        $m1_packages = Packages::find()->where(['status' => 10, 'duration' =>1])->all();
+        $m6_packages = Packages::find()->where(['status' => 10, 'duration' =>6])->all();
+        $m12_packages = Packages::find()->where(['status' => 10, 'duration' =>12])->all();
         return $this->render('packages', [
                     'packages' => $packages,
         ]);
