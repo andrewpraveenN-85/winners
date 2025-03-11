@@ -6,7 +6,6 @@ use backend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
-use backend\models\User;
 use backend\models\Profiles;
 use backend\models\Merchants;
 
@@ -205,38 +204,38 @@ AppAsset::register($this);
                         <?php if (Yii::$app->user->can('drawsManagement')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('draws', 'index') ?>" href="/draws">
-                                    <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
+                                    <i class="fa fa-gamepad fa-fw fa-sm"></i>Draws
                                 </a>
                             </li>
                              <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('players', 'index') ?>" href="/players">
-                                    <i class="fa fa-handshake-o fa-fw fa-sm" role="button" ></i>Players
+                                    <i class="fa fa-handshake-o fa-fw fa-sm"></i>Players
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myDraws')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('my-draws', 'index') ?>" href="/my-draws">
-                                    <i class="fa fa-gamepad fa-fw fa-sm" role="button" ></i>Draws
+                                    <i class="fa fa-gamepad fa-fw fa-sm"></i>Draws
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('eventManagement')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('events', 'index') ?>" href="/events">
-                                    <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
+                                    <i class="fa fa-calendar fa-fw fa-sm"></i>Events
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('participants', 'index') ?>" href="/participants">
-                                    <i class="fa fa-ticket fa-fw fa-sm" role="button" ></i>Participants
+                                    <i class="fa fa-ticket fa-fw fa-sm"></i>Participants
                                 </a>
                             </li>
                         <?php endif; ?>
                         <?php if (Yii::$app->user->can('myEvents')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('my-events', 'index') ?>" href="/my-events">
-                                    <i class="fa fa-calendar fa-fw fa-sm" role="button" ></i>Events
+                                    <i class="fa fa-calendar fa-fw fa-sm"></i>Events
                                 </a>
                             </li>
                         <?php endif; ?>
@@ -250,12 +249,12 @@ AppAsset::register($this);
                         <?php if (Yii::$app->user->can('packageManagement')): ?>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('packages', 'index') ?>" href="/packages">
-                                    <i class="fa fa-certificate fa-fw fa-sm" role="button" ></i>Packages
+                                    <i class="fa fa-certificate fa-fw fa-sm"></i>Packages
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-brown <?= isActive('offers', 'index') ?>" href="/offers">
-                                    <i class="fa fa-bullhorn fa-fw fa-sm" role="button" ></i>Offers
+                                    <i class="fa fa-bullhorn fa-fw fa-sm"></i>Offers
                                 </a>
                             </li>
                         <?php endif; ?>

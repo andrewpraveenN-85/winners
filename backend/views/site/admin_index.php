@@ -9,49 +9,49 @@ $this->title = 'Dashboard';
         <div class="row">
             <div class="col-sm-2">
                 <div class="card text-dark border-warning ">
-                    <div class="card-header"><strong>Members</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-user-secret fa-fw fa-sm"></i>Members</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $members; ?></p>
+                        <p class="card-text text-center"><?= $members; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="card text-dark border-warning ">
-                    <div class="card-header"><strong>Memberships</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-chain fa-fw fa-sm"></i>Memberships</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $memberships; ?></p>
+                        <p class="card-text text-center"><?= $memberships; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="card text-dark border-warning ">
-                    <div class="card-header"><strong>Packages</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-certificate fa-fw fa-sm"></i>Packages</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $packages; ?></p>
+                        <p class="card-text text-center"><?= $packages; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="card text-dark border-warning ">
-                    <div class="card-header"><strong>Draws</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-gamepad fa-fw fa-sm"></i>Draws</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $draws; ?></p>
+                        <p class="card-text text-center"><?= $draws; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="card text-dark border-warning ">
-                    <div class="card-header"><strong>Events</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-calendar fa-fw fa-sm"></i>Events</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $events; ?></p>
+                        <p class="card-text text-center"><?= $events; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="card text-dark border-warning ">
-                    <div class="card-header"><strong>Merchants</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-building fa-fw fa-sm"></i>Merchants</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $merchants; ?></p>
+                        <p class="card-text text-center"><?= $merchants; ?></p>
                     </div>
                 </div>
             </div>

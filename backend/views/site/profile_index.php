@@ -9,33 +9,33 @@ $this->title = 'Dashboard';
         <div class="row">
             <div class="col-sm-3">
                 <div class="card text-dark border-warning">
-                    <div class="card-header"><strong>My Package</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-certificate fa-fw fa-sm"></i>My Package</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $package->name; ?></p>
+                        <p class="card-text text-center"><?= $package->name; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="card text-dark border-warning">
-                    <div class="card-header"><strong>Remaining Entries</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-gamepad fa-fw fa-sm"></i>Remaining Entries</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $package->entry_point; ?></p>
+                        <p class="card-text text-center"><?= $package->entry_point; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="card text-dark border-warning">
-                    <div class="card-header"><strong>Merchants Discounts</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-building fa-fw fa-sm"></i>Merchants Discounts</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $package->merchants_discount; ?></p>
+                        <p class="card-text text-center"><?= $package->merchants_discount; ?></p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="card text-dark border-warning">
-                    <div class="card-header"><strong>Smart Saving Events</strong></div>
+                    <div class="card-header text-center"><strong><i class="fa fa-calendar fa-fw fa-sm"></i>Smart Saving Events</strong></div>
                     <div class="card-body">
-                        <p class="card-text text-end"><?= $package->smart_saving_events ? 'Active' : 'Inactive'; ?></p>
+                        <p class="card-text text-center"><?= $package->smart_saving_events ? 'Active' : 'Inactive'; ?></p>
                     </div>
                 </div>
             </div>
